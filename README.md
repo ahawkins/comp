@@ -47,6 +47,7 @@ Here's the file layout:
 ├── configure-osx.yml           # Include all playbooks for OSX
 ├── configure-saltside.yml      # Setup Saltside (work) environment
 ├── configure-shell.yml         # Setup my shell
+├── configure-ssh.yml           # Configure generic SSH settings
 ├── files
 │   ├── env                     # Shell source file; intended by sourced in shell boot
 │   └── saltside                # Role specific files

@@ -3,4 +3,5 @@
 - include: configure-osx-dock.yml
 - include: configure-shell.yml
 - include: configure-minikube.yml
+- include: configure-ssh.yml
 - include: configure-saltside.yml
