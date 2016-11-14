@@ -1,0 +1,95 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    env_file: ~/.config/comp/env.d/saltside.fish
+    pips:
+      - awscli
+    brews:
+      - jq
+    secrets:
+      - key: comp.saltside.aws.access_key_id
+        var: SALTSIDE_MAIN_AWS_ACCESS_KEY_ID
+      - key: comp.saltside.aws.secret_access_key
+        var: SALTSIDE_MAIN_AWS_SECRET_ACCESS_KEY
+      - key: comp.saltside.aws.mfa_id
+        var: SALTSIDE_MAIN_AWS_MFA_ID
+      - key: comp.saltside.docker.username
+        var: SALTSIDE_DOCKER_USERNAME
+      - key: comp.saltside.docker.password
+        var: SALTSIDE_DOCKER_PASSWORD
+      - key: comp.saltside.ngrok_token
+        var: SALTSIDE_NGROK_TOKEN
+      - key: comp.saltside.pingdom.app_key
+        var: SALTSIDE_PINGDOM_APP_KEY
+      - key: comp.saltside.pingdom.password
+        var: SALTSIDE_PINGDOM_PASSWORD
+      - key: comp.saltside.ansible_vault_password
+        var: SALTSIDE_ANSIBLE_VAULT_PASSWORD
+      - key: comp.heroku.api_key
+        var: SALTSIDE_HEROKU_API_KEY
+    env_vars:
+      SALTSIDE_WORKSTATION_ROLE: sre
+      SALTSIDE_WORKSTATION_MEMORY: 4096
+      SALTSIDE_SOURCE_DIR: "{{ s_src_dir }}/saltside"
+      SALTSIDE_AWS_DEFAULT_REGION: ap-south-1
+      SALTSIDE_NONPRODUCTION_AWS_ROLE_ARN: "arn:aws:iam::487267539104:role/SRE"
+      SALTSIDE_PRODUCTION_AWS_ROLE_ARN: "arn:aws:iam::527591747969:role/SRE"
+      SALTSIDE_NUCLEUS_AWS_ROLE_ARN: "arn:aws:iam::625768170713:role/SRE"
+      SALTSIDE_NEW_RELIC_ACCOUNT_ID: 74615
+  tasks:
+    - name: Install vagrant-aws plugin
+      vagrant_plugin:
+        state: present
+        name: vagrant-aws
+
+    - name: Install pips
+      pip:
+        state: present
+        name: "{{ item }}"
+      with_items: "{{ pips }}"
+
+    - name: Install brews
+      homebrew:
+        state: present
+        name: "{{ item }}"
+      with_items: "{{ pips }}"
+
+    - name: Create workstation configuration directory
+      file:
+        state: directory
+        dest: ~/.config/saltside-workstation
+
+    - name: Generate workstation configuration file
+      template:
+        src: files/saltside/env.sh
+        dest: ~/.config/saltside-workstation/env.sh
+
+    - name: Create src directory
+      file:
+        state: directory
+        dest: "{{ env_vars.SALTSIDE_SOURCE_DIR }}"
+
+    - name: Clone workstation
+      git:
+        repo: git@github.com:saltside/workstation
+        dest: "{{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation"
+        recursive: true
+        update: false
+
+    - name: Put workstation on path
+      lineinfile:
+        state: present
+        create: true
+        dest: "{{ env_file }}"
+        line: "set -x PATH {{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation/bin $PATH"
+        regexp: workstation\/bin
+
+    - name: Test workstation config
+      shell: >
+        export PATH=$PATH:{{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation/bin \
+          && source ~/.config/saltside-workstation/env.sh \
+          && script/host-check --sre
+      args:
+        chdir: "{{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation"
+      changed_when: false

@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+bootstrap_osx() {
+	# Test if xcode developer tools installed
+	if ! which xcodebuild > /dev/null; then
+		echo 'XCode tools not installed.' 1>&2
+		echo 'Confirm installation in the GUI and retry this program' 1>&2
+
+		xcode-select --install
+
+		exit 1
+	fi
+
+	if ! which brew > /dev/null; then
+		echo "Installing homebrew"
+		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	fi
+
+	local -a brews=(python)
+
+	for item in "${brews[@]}"; do
+		if ! brew list | grep -qF "${item}"; then
+			echo "Installing ${item}"
+			brew install "${item}"
+		else
+			echo "Skipped ${item}"
+		fi
+	done
+
+	local -a pips=(ansible==2.2.0.0 keyring)
+
+	for item in "${pips[@]}"; do
+		if ! which "${item}"; then
+			echo "Installing ${item}"
+			pip install "${item}"
+		else
+			echo "Skipped ${item}"
+		fi
+	done
+}
+
+main() {
+	local machine
+
+	machine="$(uname -a | tr '[:upper:]' '[:lower:]')"
+
+	case "${machine}" in
+		*darwin*)
+			bootstrap_osx
+			ansible-playbook configure-osx.yml --ask-become-pass
+			;;
+		*)
+			echo "Do not know how to boostrap ${machine}" 1>&2
+			return 1
+			;;
+	esac
+}
+
+main "$@"

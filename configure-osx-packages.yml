@@ -1,0 +1,97 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    taps:
+      - caskroom/fonts
+    brews:
+      - bats
+      - curl
+      - direnv
+      - editorconfig
+      - dockutil
+      - fish
+      - git
+      - htop-osx
+      - hub
+      - jq
+      - mas
+      - parallel
+      - reattach-to-user-namespace
+      - ssh-copy-id
+      - the_silver_searcher
+      - tmux
+      - unrar
+      - vim
+      - watch
+      - wget
+      - youtube-dl
+    casks:
+      - font-source-code-pro
+      - font-input
+      - google-chrome
+      - minikube
+      - iterm2
+      - vagrant
+      - virtualbox
+      - vivaldi
+      - vlc
+    apps:
+      - "406056744" # Evernote
+      - "407963104" # Pixelmator
+      - "803453959" # Slack
+      - "425955336" # Skitch
+      - "747648890" # Spotify
+      - "747648890" # Telegram
+      - "557168941" # Tweebot
+  tasks:
+    - name: Add brew taps
+      homebrew_tap:
+        state: present
+        name: "{{ item }}"
+      environment:
+        HOMEBREW_GITHUB_API_TOKEN: "{{ lookup('secret', keys.brew_api_token) }}"
+      with_items: "{{ taps }}"
+
+    - name: Install brew packages
+      homebrew:
+        state: present
+        name: "{{ item }}"
+      environment:
+        HOMEBREW_GITHUB_API_TOKEN: "{{ lookup('secret', keys.brew_api_token) }}"
+      with_items: "{{ brews }}"
+
+    - name: Install casks
+      homebrew_cask:
+        state: present
+        name: "{{ item }}"
+      environment:
+        HOMEBREW_GITHUB_API_TOKEN: "{{ lookup('secret', keys.brew_api_token) }}"
+      with_items: "{{ casks }}"
+
+    - name: Login to App Store
+      mas_login:
+        state: present
+        email: "{{ lookup('secret', keys.mas_account) }}"
+        password: "{{ lookup('secret', keys.mas_password) }}"
+
+    - name: Install apps
+      mas_app:
+        state: present
+        name: "{{ item }}"
+      with_items: "{{ apps }}"
+
+    - name: Add fish to /etc/shells
+      become: true
+      lineinfile:
+        state: present
+        dest: /etc/shells
+        regexp: fish
+        line: /usr/local/bin/fish
+
+      # See: https://github.com/mitchellh/vagrant/issues/7969
+    - name: Remove broken curl embedded in vagrant
+      become: true
+      file:
+        state: absent
+        dest: /opt/vagrant/embedded/bin/curl

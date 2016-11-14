@@ -1,0 +1,91 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    - s_aliases:
+        - name: ah
+          dest: ahawkins
+        - name: ss
+          dest: saltside
+        - name: sd
+          dest: slashdeploy
+  tasks:
+    - name: Create configuration directory
+      file:
+        state: directory
+        path: ~/.config/comp
+
+    - name: Generate environment file
+      template:
+        src: files/env
+        dest: ~/.config/comp/env.fish
+
+    - name: Create env.d directory
+      file:
+        state: directory
+        dest: ~/.config/comp/env.d
+
+    - name: Create source code directory
+      file:
+        state: directory
+        path: "{{ s_src_dir }}"
+
+    - name: Accept github key
+      known_hosts:
+        state: present
+        name: github.com
+        key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+
+    - name: Create SSH key
+      command: "ssh-keygen -b 2048 -t rsa -N '' -f ~/.ssh/id_rsa"
+      args:
+        creates: ~/.ssh/id_rsa
+
+    - name: Set correct SSH key permissions
+      file:
+        state: file
+        path: ~/.ssh/id_rsa
+        mode: "0600"
+
+      # Ansible uses "localhost" for the inventory_hostname variable
+      # becuase that's what is passed in playbook hosts.
+    - name: Get machine's identified hostname
+      command: hostname
+      changed_when: false
+      register: hostname
+
+    - name: Add SSH key to Github
+      github_key:
+        state: present
+        name: "{{ hostname.stdout }}"
+        pubkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        token: "{{ lookup('secret', 'comp.github.key_token') }}"
+
+    - name: Clone dotfiles
+      git:
+        repo: git@github.com:ahawkins/dotfiles.git
+        dest: "{{ dotfiles_dir }}"
+        update: true
+
+    - name: Install dotfiles
+      command: "./bootstrap.sh"
+      args:
+        chdir: "{{ dotfiles_dir }}"
+      changed_when: false
+
+    - name: Clone bindir
+      git:
+        repo: git@github.com:ahawkins/bindir.git
+        dest: "{{ bindir_dir }}"
+        update: true
+
+    - name: Create s config dir
+      file:
+        state: directory
+        dest: ~/.config/s/aliases
+
+    - name: Create s aliases
+      copy:
+        dest: "~/.config/s/aliases/{{ item.name }}"
+        content: "{{ item.dest }}"
+      with_items: "{{ s_aliases }}"
