@@ -21,6 +21,7 @@
       - ssh-copy-id
       - the_silver_searcher
       - tmux
+      - tree
       - unrar
       - vim
       - watch
