@@ -45,6 +45,7 @@
       - "747648890" # Spotify
       - "747648890" # Telegram
       - "557168941" # Tweebot
+      - "461369673" # VOX
   tasks:
     - name: Add brew taps
       homebrew_tap:
