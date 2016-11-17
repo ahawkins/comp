@@ -2,17 +2,17 @@
 - hosts: localhost
   connection: local
   tasks:
-    - name: Create ssh config file
+    - name: Delete ~/.ssh/config
       file:
-        state: touch
+        state: absent
         dest: ~/.ssh/config
-        mode: "0600"
 
-    - name: Add generic SSH configuration
-      blockinfile:
-        state: present
-        dest: ~/.ssh/config
-        marker: "# {mark} ANSIBLE MANAGED BLOCK [GENERIC]"
-        content: |
-          Host *
-            ServerAliveInterval 30
+    - name: Create SSH conf.d directory
+      file:
+        state: directory
+        dest: ~/.config/ssh/conf.d
+
+    - name: Add ssh global host config file
+      copy:
+        src: files/ssh/hosts
+        dest: ~/.config/ssh/conf.d/hosts
