@@ -28,6 +28,8 @@
         var: SALTSIDE_ANSIBLE_VAULT_PASSWORD
       - key: comp.heroku.api_key
         var: SALTSIDE_HEROKU_API_KEY
+      - key: comp.saltside.github_token
+        var: SALTSIDE_GITHUB_API_KEY
     env_vars:
       SALTSIDE_WORKSTATION_ROLE: sre
       SALTSIDE_WORKSTATION_MEMORY: 4096
@@ -64,6 +66,8 @@
       template:
         src: files/saltside/env.sh
         dest: ~/.config/saltside-workstation/env.sh
+      notify:
+        - configure workstation
 
     - name: Create src directory
       file:
@@ -93,3 +97,7 @@
       args:
         chdir: "{{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation"
       changed_when: false
+
+  handlers:
+    - name: configure workstation
+      command: saltside-workstation provision --configure
