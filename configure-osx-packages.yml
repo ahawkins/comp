@@ -28,6 +28,7 @@
       - wget
       - youtube-dl
     casks:
+      - flux
       - font-source-code-pro
       - font-input
       - google-chrome
