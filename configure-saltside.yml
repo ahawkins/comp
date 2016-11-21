@@ -2,7 +2,6 @@
 - hosts: localhost
   connection: local
   vars:
-    env_file: ~/.config/comp/env.d/saltside.fish
     pips:
       - awscli
     brews:
@@ -40,6 +39,11 @@
       SALTSIDE_NUCLEUS_AWS_ROLE_ARN: "arn:aws:iam::625768170713:role/SRE"
       SALTSIDE_NEW_RELIC_ACCOUNT_ID: 74615
   tasks:
+    - name: Delete individual configuration files
+      file:
+        state: absent
+        path: ~/.config/comp/env.d/saltside.fish
+
     - name: Install vagrant-aws plugin
       vagrant_plugin:
         state: present
@@ -81,22 +85,25 @@
         recursive: true
         update: false
 
-    - name: Put workstation on path
-      lineinfile:
-        state: present
-        create: true
-        dest: "{{ env_file }}"
-        line: "set -x PATH {{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation/bin $PATH"
-        regexp: workstation\/bin
-
     - name: Test workstation config
       shell: >
         export PATH=$PATH:{{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation/bin \
-          && source ~/.config/saltside-workstation/env.sh \
           && script/host-check --sre
       args:
         chdir: "{{ env_vars.SALTSIDE_SOURCE_DIR }}/workstation"
       changed_when: false
+
+    - name: Create env.d directory
+      file:
+        state: directory
+        path: ~/.config/comp/env.d/saltside
+
+    - name: Add env.d shell files
+      template:
+        src: "{{ item }}"
+        dest: "~/.config/comp/env.d/saltside/{{ item | basename }}"
+      with_fileglob:
+        - files/saltside/env.d/*
 
   handlers:
     - name: configure workstation

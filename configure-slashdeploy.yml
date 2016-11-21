@@ -1,0 +1,70 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    secrets:
+      - key: comp.slashdeploy.aws.access_key_id
+        var: SLASHDEPLOY_AWS_ACCESS_KEY_ID
+      - key: comp.slashdeploy.aws.secret_access_key
+        var: SLASHDEPLOY_AWS_SECRET_ACCESS_KEY
+      - key: comp.slashdeploy.infrastructure.vault_password
+        var: SLASHDEPLOY_ANSIBLE_VAULT_PASSWORD
+      - key: comp.slashdeploy.kpi.vault_password
+        var: SLASHDEPLOY_KPI_VAULT_PASSWORD
+    env_vars:
+      SLASHDEPLOY_PROJECT_PATH: "{{ s_src_dir }}/slashdeploy"
+      SLASHDEPLOY_WORKSTATION_MEMORY: 1024
+      SLASHDEPLOY_AWS_DEFAULT_REGION: ap-south-1
+  tasks:
+    - name: Delete individual configuration files
+      file:
+        state: absent
+        path: ~/.config/comp/env.d/slashdeploy.fish
+
+    - name: Create workstation configuration directory
+      file:
+        state: directory
+        path: ~/.config/slashdeploy-workstation
+
+    - name: Generate workstation configuration file
+      template:
+        src: files/slashdeploy/env.sh
+        dest: ~/.config/slashdeploy-workstation/env.sh
+      notify:
+        - configure workstation
+
+    - name: Create src directory
+      file:
+        state: directory
+        dest: "{{ env_vars.SLASHDEPLOY_PROJECT_PATH }}"
+
+    - name: Clone workstation
+      git:
+        repo: git@gitlab.com:slashdeploy/workstation
+        dest: "{{ env_vars.SLASHDEPLOY_PROJECT_PATH }}/workstation"
+        recursive: true
+        update: false
+
+    - name: Test workstation config
+      shell: >
+        export PATH=$PATH:{{ env_vars.SLASHDEPLOY_PROJECT_PATH }}/workstation/bin \
+          && script/host-check
+      args:
+        chdir: "{{ env_vars.SLASHDEPLOY_PROJECT_PATH }}/workstation"
+      changed_when: false
+
+    - name: Create env.d directory
+      file:
+        state: directory
+        path: ~/.config/comp/env.d/slashdeploy
+
+    - name: Add env.d shell files
+      template:
+        src: "{{ item }}"
+        dest: "~/.config/comp/env.d/slashdeploy/{{ item | basename }}"
+      with_fileglob:
+        - files/slashdeploy/env.d/*
+
+  handlers:
+    - name: configure workstation
+      command: slashdeploy-workstation provision --configure
