@@ -15,6 +15,7 @@
       SLASHDEPLOY_PROJECT_PATH: "{{ s_src_dir }}/slashdeploy"
       SLASHDEPLOY_WORKSTATION_MEMORY: 1024
       SLASHDEPLOY_AWS_DEFAULT_REGION: ap-south-1
+      SLASHDEPLOY_GCP_DEFAULT_REGION: asia-east1
   tasks:
     - name: Delete individual configuration files
       file:
