@@ -49,6 +49,8 @@
       vagrant_plugin:
         state: present
         name: vagrant-aws
+      # NOTE: vagrant-aws plugin is broken on 1.9.0. See: https://github.com/mitchellh/vagrant-aws/issues/493
+      when: false
 
     - name: Install pips
       pip:
