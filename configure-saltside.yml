@@ -30,6 +30,7 @@
       - key: comp.saltside.github_token
         var: SALTSIDE_GITHUB_API_KEY
     env_vars:
+      SALTSIDE_USER: ahawkins
       SALTSIDE_WORKSTATION_ROLE: sre
       SALTSIDE_WORKSTATION_MEMORY: 4096
       SALTSIDE_SOURCE_DIR: "{{ s_src_dir }}/saltside"
