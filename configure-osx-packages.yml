@@ -9,16 +9,19 @@
       - curl
       - direnv
       - editorconfig
+      - exif
       - dockutil
       - fish
       - git
       - htop-osx
       - hub
+      - imagemagick
       - jq
       - mas
       - parallel
       - reattach-to-user-namespace
       - ssh-copy-id
+      - rename
       - the_silver_searcher
       - tmux
       - tree
@@ -34,11 +37,13 @@
       - google-chrome
       - minikube
       - iterm2
+      - skype
       - spotify
       - vagrant
       - virtualbox
       - vivaldi
       - vlc
+      - whatsapp
     apps:
       - "406056744" # Evernote
       - "407963104" # Pixelmator
@@ -93,9 +98,11 @@
         regexp: fish
         line: /usr/local/bin/fish
 
-      # See: https://github.com/mitchellh/vagrant/issues/7969
-    - name: Remove broken curl embedded in vagrant
+    - name: Add OSX executables
       become: true
-      file:
-        state: absent
-        dest: /opt/vagrant/embedded/bin/curl
+      copy:
+        src: "{{ item }}"
+        dest: "/usr/local/bin/{{ item | basename }}"
+        mode: 0755
+      with_fileglob:
+        - files/osx/bin/*
