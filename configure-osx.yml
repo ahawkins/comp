@@ -5,3 +5,4 @@
 - include: configure-minikube.yml
 - include: configure-ssh.yml
 - include: configure-saltside.yml
+- include: configure-slashdeploy.yml
