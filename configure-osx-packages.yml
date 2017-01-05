@@ -11,6 +11,7 @@
       - editorconfig
       - exif
       - dockutil
+      - ffmpeg
       - fish
       - git
       - htop-osx
