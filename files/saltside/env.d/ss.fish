@@ -2,7 +2,7 @@ function ss --description "Everything for Saltside"
 	switch $argv[1]
 		case 'notes'
 			set -l year (date '+%Y')
-			set -l week (date '+%v') # 00-53
+			set -l week (date '+%V') # 00-53
 			set -l week_number (math "$week+1")
 			set -l notes_file "{{ notes_dir }}/$year-w$week_number.md"
 
