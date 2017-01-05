@@ -8,5 +8,8 @@ keys:
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
 s_src_dir: ~/src
 
+# Location for ahawkins/life repo
+life_dir: ~/life
+
 dotfiles_dir: "{{ s_src_dir }}/ahawkins/dotfiles"
 bindir_dir: "{{ s_src_dir }}/ahawkins/bindir"
