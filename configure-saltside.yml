@@ -19,6 +19,8 @@
         var: SALTSIDE_DOCKER_PASSWORD
       - key: comp.saltside.ngrok_token
         var: SALTSIDE_NGROK_TOKEN
+      - key: comp.saltside.pingdom.username
+        var: SALTSIDE_PINGDOM_USERNAME
       - key: comp.saltside.pingdom.app_key
         var: SALTSIDE_PINGDOM_APP_KEY
       - key: comp.saltside.pingdom.password
@@ -29,6 +31,8 @@
         var: SALTSIDE_HEROKU_API_KEY
       - key: comp.saltside.github_token
         var: SALTSIDE_GITHUB_API_KEY
+      - key: comp.saltside.new_relic.query_key
+        var: SALTSIDE_NEW_RELIC_QUERY_KEY
     env_vars:
       SALTSIDE_USER: ahawkins
       SALTSIDE_WORKSTATION_ROLE: sre
