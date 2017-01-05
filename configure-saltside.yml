@@ -43,6 +43,9 @@
       SALTSIDE_PRODUCTION_AWS_ROLE_ARN: "arn:aws:iam::527591747969:role/SRE"
       SALTSIDE_NUCLEUS_AWS_ROLE_ARN: "arn:aws:iam::625768170713:role/SRE"
       SALTSIDE_NEW_RELIC_ACCOUNT_ID: 74615
+    todo_dir: "{{ life_dir }}/saltside/todo"
+    notes_dir: "{{ life_dir }}/saltside/notes"
+
   tasks:
     - name: Delete individual configuration files
       file:
@@ -66,10 +69,15 @@
         name: "{{ item }}"
       with_items: "{{ pips }}"
 
-    - name: Create workstation configuration directory
+    - name: Create directories
       file:
         state: directory
-        dest: ~/.config/saltside-workstation
+        dest: "{{ item }}"
+      items:
+        - ~/.config/saltside-workstation
+        - ~/.config/saltside
+        - "{{ todo_dir }}"
+        - "{{ notes_dir }}"
 
     - name: Generate workstation configuration file
       template:
@@ -109,6 +117,11 @@
         dest: "~/.config/comp/env.d/saltside/{{ item | basename }}"
       with_fileglob:
         - files/saltside/env.d/*
+
+    - name: Create todo.sh configuration file
+      template:
+        src: files/saltside/todo.sh
+        dest: ~/.config/saltside/todo.sh
 
   handlers:
     - name: configure workstation
