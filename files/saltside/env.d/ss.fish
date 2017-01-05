@@ -9,7 +9,7 @@ function ss --description "Everything for Saltside"
 			eval $EDITOR $notes_file
 		case 't'
 			if test (count $argv) -ge 2
-				command todo.sh -d ~/.config/saltside/todo.sh $argv[2..1]
+				command todo.sh -d ~/.config/saltside/todo.sh $argv[2..-1]
 			else
 				command todo.sh -d ~/.config/saltside/todo.sh ls
 			end
