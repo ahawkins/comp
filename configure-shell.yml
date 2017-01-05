@@ -3,12 +3,12 @@
   connection: local
   vars:
     - s_aliases:
-        - name: ah
-          dest: ahawkins
-        - name: ss
-          dest: saltside
-        - name: sd
-          dest: slashdeploy
+      - name: ah
+        dest: ahawkins
+      - name: ss
+        dest: saltside
+      - name: sd
+        dest: slashdeploy
   tasks:
     - name: Create configuration directory
       file:
