@@ -18,6 +18,7 @@
       - hub
       - imagemagick
       - jq
+      - ledger
       - mas
       - parallel
       - reattach-to-user-namespace
@@ -25,6 +26,7 @@
       - rename
       - the_silver_searcher
       - tmux
+      - todo-txt
       - tree
       - unrar
       - vim

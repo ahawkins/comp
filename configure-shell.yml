@@ -79,6 +79,12 @@
         dest: "{{ bindir_dir }}"
         update: true
 
+    - name: Clone life
+      git:
+        repo: git@gitlab.com:ahawkins/life.git
+        dest: "{{ life_dir }}"
+        update: false
+
     - name: Create s config dir
       file:
         state: directory
@@ -89,3 +95,8 @@
         dest: "~/.config/s/aliases/{{ item.name }}"
         content: "{{ item.dest }}"
       with_items: "{{ s_aliases }}"
+
+    - name: Configure todo.sh
+      template:
+        src: files/todo/config
+        dest: "~/.todo/config"
