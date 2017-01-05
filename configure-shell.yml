@@ -54,12 +54,12 @@
       changed_when: false
       register: hostname
 
-    - name: Add SSH key to Github
-      github_key:
-        state: present
-        name: "{{ hostname.stdout }}"
-        pubkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-        token: "{{ lookup('secret', 'comp.github.key_token') }}"
+    # - name: Add SSH key to Github
+    #   github_key:
+    #     state: present
+    #     name: "{{ hostname.stdout }}"
+    #     pubkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    #     token: "{{ lookup('secret', 'comp.github.key_token') }}"
 
     - name: Clone dotfiles
       git:
