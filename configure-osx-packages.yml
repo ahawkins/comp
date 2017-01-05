@@ -40,12 +40,14 @@
       - iterm2
       - skype
       - spotify
+      - the-unarchiver
       - vagrant
       - virtualbox
       - vivaldi
       - vlc
       - whatsapp
     apps:
+      - "411643860" # DaisyDisk
       - "406056744" # Evernote
       - "407963104" # Pixelmator
       - "803453959" # Slack
