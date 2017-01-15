@@ -19,6 +19,7 @@
       - hub
       - imagemagick
       - jq
+      - keybase
       - ledger
       - mas
       - parallel
