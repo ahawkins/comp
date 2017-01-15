@@ -10,6 +10,7 @@
       - direnv
       - editorconfig
       - exif
+      - docker # just the client
       - dockutil
       - ffmpeg
       - fish
