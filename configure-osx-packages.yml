@@ -37,8 +37,9 @@
       - youtube-dl
     casks:
       - flux
-      - font-source-code-pro
       - font-input
+      - font-lato
+      - font-source-code-pro
       - google-chrome
       - minikube
       - iterm2
