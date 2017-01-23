@@ -4,6 +4,7 @@
   vars:
     taps:
       - caskroom/fonts
+      - caskroom/versions
     brews:
       - bats
       - curl
@@ -15,6 +16,7 @@
       - ffmpeg
       - fish
       - git
+      - gnupg21
       - htop-osx
       - hub
       - imagemagick
@@ -23,6 +25,7 @@
       - ledger
       - mas
       - parallel
+      - pinentry-mac
       - reattach-to-user-namespace
       - ssh-copy-id
       - rename
@@ -34,6 +37,7 @@
       - vim
       - watch
       - wget
+      - ykneomgr
       - youtube-dl
     casks:
       - flux
@@ -47,6 +51,7 @@
       - spotify
       - the-unarchiver
       - vagrant
+      - veracrypt
       - virtualbox
       - vivaldi
       - vlc
@@ -114,3 +119,9 @@
         mode: 0755
       with_fileglob:
         - files/osx/bin/*
+
+    - name: configure git to use gpg2 executable
+      git_config:
+        name: gpg.program
+        scope: system
+        value: gpg2
