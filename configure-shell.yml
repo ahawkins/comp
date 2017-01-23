@@ -36,30 +36,12 @@
         name: github.com
         key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
-    - name: Create SSH key
-      command: "ssh-keygen -b 2048 -t rsa -N '' -f ~/.ssh/id_rsa"
-      args:
-        creates: ~/.ssh/id_rsa
-
-    - name: Set correct SSH key permissions
-      file:
-        state: file
-        path: ~/.ssh/id_rsa
-        mode: "0600"
-
       # Ansible uses "localhost" for the inventory_hostname variable
       # becuase that's what is passed in playbook hosts.
     - name: Get machine's identified hostname
       command: hostname
       changed_when: false
       register: hostname
-
-    # - name: Add SSH key to Github
-    #   github_key:
-    #     state: present
-    #     name: "{{ hostname.stdout }}"
-    #     pubkey: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-    #     token: "{{ lookup('secret', 'comp.github.key_token') }}"
 
     - name: Clone dotfiles
       git:
