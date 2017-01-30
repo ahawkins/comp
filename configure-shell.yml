@@ -73,9 +73,21 @@
         chdir: "{{ bindir_dir }}"
       changed_when: False
 
+    - name: Create life deploy key
+      command: mktemp
+      register: life_deploy_key
+      changed_when: false
+
+    - name: Write life deploy key
+      copy:
+        dest: "{{ life_deploy_key.stdout }}"
+        content: "{{ lookup('secret', keys.life_key) }}"
+      changed_when: false
+
     - name: Clone life
       git:
-        repo: git@gitlab.com:ahawkins/life.git
+        repo: "git@gitlab.com:ahawkins/life.git"
+        key_file: "{{ life_deploy_key.stdout }}"
         dest: "{{ life_dir }}"
         update: false
 

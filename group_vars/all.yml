@@ -4,6 +4,7 @@ keys:
   brew_api_token: comp.brew.api_token
   mas_account: comp.mas.account
   mas_password: comp.mas.password
+  life_key: comp.life.deploy_key
 
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
 s_src_dir: ~/src
