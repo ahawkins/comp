@@ -82,3 +82,11 @@
       template:
         src: files/todo/config
         dest: "~/.todo/config"
+
+    - name: Create go directories
+      file:
+        state: directory
+        path: "{{ item }}"
+      with_items:
+        - "{{ gopath }}"
+        - "{{ gopath }}/bin"

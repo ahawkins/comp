@@ -16,6 +16,7 @@
       - ffmpeg
       - fish
       - git
+      - go
       - gnupg21
       - htop-osx
       - hub

@@ -1,6 +1,10 @@
 # Set directory for s code management tool. See ahawkins/bindir
 set -x S_SRC_DIR {{ s_src_dir }}
 
+# Go GOPATH for all go toolchain things
+set -x GOPATH {{ gopath }}
+set -x PATH {{ gopath }}/bin $PATH
+
 # Add bindir to path
 set -x PATH {{ bindir_dir }}/bin $PATH
 
