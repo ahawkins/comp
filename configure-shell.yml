@@ -45,9 +45,15 @@
 
     - name: Clone dotfiles
       git:
-        repo: git@github.com:ahawkins/dotfiles.git
+        repo: https://github.com/ahawkins/dotfiles.git
         dest: "{{ dotfiles_dir }}"
-        update: true
+        update: false
+
+    - name: Configure dotfiles to push over SSH
+      command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
+      args:
+        chdir: "{{ dotfiles_dir }}"
+      changed_when: False
 
     - name: Install dotfiles
       command: "./bootstrap.sh"
@@ -57,9 +63,15 @@
 
     - name: Clone bindir
       git:
-        repo: git@github.com:ahawkins/bindir.git
+        repo: https://github.com/ahawkins/bindir.git
         dest: "{{ bindir_dir }}"
-        update: true
+        update: false
+
+    - name: Configure bindir to push over SSH
+      command: git remote set-url --push origin git@github.com:ahawkins/bindir.git
+      args:
+        chdir: "{{ bindir_dir }}"
+      changed_when: False
 
     - name: Clone life
       git:
