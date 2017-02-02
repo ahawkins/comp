@@ -8,6 +8,8 @@ set -x PATH {{ gopath }}/bin $PATH
 # Add bindir to path
 set -x PATH {{ bindir_dir }}/bin $PATH
 
+set -x LIFE_DIR {{ life_dir }}
+
 # Set jrnl entry directory
 set -x JOURNAL_DIR {{ life_dir }}/journal
 
