@@ -5,9 +5,12 @@ keys:
   mas_account: comp.mas.account
   mas_password: comp.mas.password
   life_key: comp.life.deploy_key
+  difm: comp.difm.key
 
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
 s_src_dir: ~/src
+
+music_dir: ~/music
 
 gopath: ~/go
 

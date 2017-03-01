@@ -6,3 +6,4 @@
 - include: configure-ssh.yml
 - include: configure-saltside.yml
 - include: configure-slashdeploy.yml
+- include: configure-music.yml
