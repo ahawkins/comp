@@ -1,0 +1,2 @@
+slashdeploy:
+  source: "{{ s_src_dir | expanduser }}/slashdeploy"

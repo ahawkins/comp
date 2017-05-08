@@ -3,6 +3,7 @@
   connection: local
   vars:
     taps:
+      - caskroom/cask
       - caskroom/fonts
       - caskroom/versions
     brews:
@@ -22,7 +23,6 @@
       - hub
       - imagemagick
       - jq
-      - keybase
       - ledger
       - mas
       - parallel
@@ -30,6 +30,8 @@
       - reattach-to-user-namespace
       - ssh-copy-id
       - rename
+      - tarsnap
+      - tarsnapper
       - the_silver_searcher
       - tmux
       - todo-txt
@@ -47,6 +49,7 @@
       - font-lato
       - font-source-code-pro
       - google-chrome
+      - keybase
       - minikube
       - iterm2
       - skype

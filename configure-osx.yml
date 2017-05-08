@@ -7,3 +7,4 @@
 - include: configure-saltside.yml
 - include: configure-slashdeploy.yml
 - include: configure-music.yml
+- include: configure-tarsnap.yml

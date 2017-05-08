@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create directories
+      file:
+        state: directory
+        path: "{{ item }}"
+      items:
+        - "{{ tarsnap_keyfile | dirname }}"
+        - "{{ tarsnap_cachedir }}"
+        - "{{ tarsnapper_confd }}"
+        - "{{ tarsnapper_conf | dirname }}"
+        - "{{ tarsnapper_placeholder }}"
+
+    - name: Create ~/.tarsnaprc
+      template:
+        src: files/tarsnaprc
+        dest: ~/.tarsnaprc
+
+    - name: Create tarsnapper configuration file
+      template:
+        src: files/tarsnapper.yml
+        dest: "{{ tarsnapper_conf }}"

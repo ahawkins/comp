@@ -19,3 +19,13 @@ life_dir: ~/life
 
 dotfiles_dir: "{{ s_src_dir }}/ahawkins/dotfiles"
 bindir_dir: "{{ s_src_dir }}/ahawkins/bindir"
+
+tarsnap_cachedir: ~/.config/tarsnap/cache
+tarsnap_keyfile: ~/.config/tarsnap/key
+tarsnapper_confd: ~/.config/tarsnapper/conf.d
+tarsnapper_conf: ~/.config/tarsnapper/config.yml
+# This directory is created as a place holder in the configuration file.
+# Tarsnapper requires jobs in the main configuration file. This code
+# drops file in the conf.d directoy instead so different parts of the 
+# comp may add their own backup rule.
+tarsnapper_placeholder: ~/.config/tarsnapper/placeholder

@@ -1,0 +1,15 @@
+# Global values, valid for all jobs unless overridden:
+# A job's delta controls when old backups are expired
+# (see "How expiring backups works" below)
+deltas: 1d 7d 30d
+# A job's target sets the name of the created archive
+target: /ss-mbp/$name-$date
+# You can also include jobs from separate files
+include-jobs: "{{ tarsnapper_confd | expanduser }}/*.yml"
+
+jobs:
+  # Define a placeholder job that backs up an empty directory.
+  # This config file MUST define jobs even if the files
+  # include-jobs do.
+  placeholder:
+    source: "{{ tarsnapper_placeholder | expanduser }}"

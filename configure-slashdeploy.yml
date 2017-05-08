@@ -66,6 +66,11 @@
       with_fileglob:
         - files/slashdeploy/env.d/*
 
+    - name: Add tarsnapper job
+      template:
+        src: files/slashdeploy/tarsnapper.yml
+        dest: "{{ tarsnapper_confd }}/slashdeploy.yml"
+
   handlers:
     - name: configure workstation
       command: slashdeploy-workstation provision --configure
