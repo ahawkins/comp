@@ -33,6 +33,8 @@
         var: SALTSIDE_GITHUB_API_KEY
       - key: comp.saltside.new_relic.query_key
         var: SALTSIDE_NEW_RELIC_QUERY_KEY
+      - key: comp.saltside.git_crypt_key
+        var: SALTSIDE_GIT_CRYPT_KEY
     env_vars:
       SALTSIDE_USER: ahawkins
       SALTSIDE_WORKSTATION_ROLE: sre
