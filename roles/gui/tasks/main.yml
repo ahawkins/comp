@@ -1,0 +1,19 @@
+---
+- name: Install packages
+  pacman:
+    state: present
+    name: "{{ item }}"
+  become: true
+  with_items: "{{ packages }}"
+
+- name: Enable lightdm service
+  systemd:
+    enabled: true
+    name: lightdm
+  become: true
+
+- name: Add Xorg keyboard defaults
+  copy:
+    src: files/keyboard.conf
+    dest: /etc/X11/xorg.conf.d/keyboard.conf
+  become: true

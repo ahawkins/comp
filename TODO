@@ -6,3 +6,26 @@
 * browser extension automation
 * iterm2 automation (color theme and others)
 * create GL ssh key module
+
+## Arch Setup
+
+- [x] Dark terminal background
+- [x] Source Code Pro font
+- [x] Yubikey hardward packages
+- [x] GUI: caps lock to control
+- [ ] Terminal: caps lock to control
+- [ ] Keymappings for Mod1/4/Ctrl
+- [X] brightness keys
+- [ ] volume keys
+- [ ] Status bar rework
+- [ ] Remove scroll bars from terminal windows
+- [ ] key repeat
+- [ ] ledger
+- [ ] power
+- [ ] audio
+- [ ] persistent power tune
+
+
+## Hardward Packages
+
+- xf86-video-intel

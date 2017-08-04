@@ -41,6 +41,12 @@ bootstrap_osx() {
 	done
 }
 
+bootstrap_arch() {
+	if ! pacman -Qsq ansible &> /dev/null; then
+		sudo pacman -Sf ansible
+	fi
+}
+
 main() {
 	local machine
 
@@ -50,6 +56,10 @@ main() {
 		*darwin*)
 			bootstrap_osx
 			ansible-playbook configure-osx.yml --ask-become-pass "$@"
+			;;
+		*arch*)
+			bootstrap_arch
+			ansible-playbook configure-arch.yml "$@"
 			;;
 		*)
 			echo "Do not know how to boostrap ${machine}" 1>&2

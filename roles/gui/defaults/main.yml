@@ -1,0 +1,12 @@
+---
+packages:
+  - adobe-source-code-pro-fonts
+  - chromium
+  - lightdm
+  - lightdm-gtk-greeter
+  - rxvt-unicode
+  - xf86-video-intel
+  - xorg-xbacklight # not sure if this should be here
+  - xorg-server
+  - xorg-xinit
+  - xterm

@@ -1,0 +1,7 @@
+---
+- name: Copy .Xresources
+  copy:
+    src: files/xresources
+    dest: "~{{ dot_user }}/.Xresources"
+  become: true
+  become_user: "{{ dot_user }}"

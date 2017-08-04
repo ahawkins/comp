@@ -1,0 +1,7 @@
+---
+packages:
+  - base-devel
+  - reflector
+# 30 days
+mirrors: 5
+mirror_list_expiry: "{{ (ansible_date_time.epoch | int) - ((60 * 60 * 24 * 30) | int) }}"

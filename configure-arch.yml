@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - arch
+    - terminal
+    - gui
+    - dotfiles
+    - yubikey
+    - laptop

@@ -1,0 +1,34 @@
+URxvt.font: xft:Source Code Pro Regular:size=10
+URxvt.boldFont: xft:Source Code Pro Regular:bold:size=10
+
+*.foreground: #efefef
+*.background: #000000
+
+! Black + DarkGrey
+*color0: #000000
+*color8: #626566
+! DarkRed + Red
+*color1: #e12000
+*color9: #ff7772
+! DarkGreen + Green
+*color2:  #00d900
+*color10: #95fa00
+! DarkYellow + Yellow
+*color3:  #ff9a00
+*color11: #ffdc00
+! DarkBlue + Blue
+*color4:  #0079ff
+*color12: #009cff
+! DarkMagenta + Magenta
+*color5:  #b67cff
+*color13: #ff3099
+!DarkCyan + Cyan (both not tango)
+*color6:  #009bdf
+*color14: #00deff
+! LightGrey + White
+*color7:  #ffffff
+*color15: #aeaea3
+
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintnone

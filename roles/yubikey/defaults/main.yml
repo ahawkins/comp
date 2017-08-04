@@ -1,0 +1,6 @@
+---
+packages:
+  - pcsc-tools
+  - ccid
+  - libusb-compat
+  - libu2f-host
