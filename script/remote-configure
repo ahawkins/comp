@@ -11,4 +11,4 @@ fi
 
 ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${1}" 'mkdir -p ~/.comp'
 rsync -avzh --delete -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${1}:.comp"
-ssh "${1}" 'cd ~/.comp && script/configure'
+ssh "${1}" "sh -c 'cd ~/.comp && script/configure'"
