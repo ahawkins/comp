@@ -1,0 +1,6 @@
+---
+packages:
+  - stow
+s_aliases:
+  - name: ah
+    dest: ahawkins
