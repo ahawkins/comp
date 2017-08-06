@@ -1,6 +1,7 @@
 ---
 packages:
   - stow
+  - tree
 s_aliases:
   - name: ah
     dest: ahawkins
