@@ -55,7 +55,7 @@
 - name: Install dotfiles executable
   make:
     target: install-bin
-    chdir: "{{ dotfiles_dir }}"
+    chdir: "{{ dotfiles_dir | expanduser }}"
   when: dotfiles_source.changed
   become: true
 
