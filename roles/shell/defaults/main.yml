@@ -2,6 +2,7 @@
 packages:
   - stow
   - tree
+env_auto_dir: ~/.config/env/auto
 s_aliases:
   - name: ah
     dest: ahawkins

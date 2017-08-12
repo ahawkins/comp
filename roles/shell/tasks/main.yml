@@ -6,20 +6,24 @@
   become: true
   with_items: "{{ packages }}"
 
-- name: Create configuration directory
+- file:
+    state: directory
+    path: "{{ opt_dir }}"
+  become: true
+
+- name: Create env directory
   file:
     state: directory
-    path: ~/.config/comp
+    path: "{{ env_auto_dir }}"
 
-- name: Generate environment file
+- name: Set environment variables
   template:
-    src: files/env.fish
-    dest: ~/.config/comp/env.fish
-
-- name: Create env.d directory
-  file:
-    state: directory
-    dest: ~/.config/comp/env.d
+    src: "files/{{ item }}"
+    dest: "{{ env_auto_dir }}/{{ item }}"
+  with_items:
+    - JOURNAL_DIR
+    - LIFE_DIR
+    - S_SRC_DIR
 
 - name: Create source code directory
   file:
@@ -32,31 +36,11 @@
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
-- name: Clone dotfiles
-  git:
-    repo: https://github.com/ahawkins/dotfiles.git
-    dest: "{{ dotfiles_dir }}"
-    version: refactor/stow
-    update: true
-  register: dotfiles_source
-
-- name: Configure dotfiles to push over SSH
-  command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
-  args:
-    chdir: "{{ dotfiles_dir }}"
-  changed_when: false
-
-- name: Install dotfiles
-  make:
-    target: install
-    chdir: "{{ dotfiles_dir }}"
-  when: dotfiles_source.changed
-
-- name: Install dotfiles executable
-  make:
-    target: install-bin
-    chdir: "{{ dotfiles_dir | expanduser }}"
-  when: dotfiles_source.changed
+- name: Install fundle
+  get_url:
+    url: "https://git.io/fundle"
+    dest: "/usr/share/fish/functions/fundle.fish"
+    mode: "u+x,o+x,g+x"
   become: true
 
 - name: Clone bindir
