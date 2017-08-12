@@ -1,0 +1,6 @@
+---
+packages:
+  - go
+  - hub
+  - python-editorconfig
+  - vagrant

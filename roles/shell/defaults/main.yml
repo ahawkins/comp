@@ -1,6 +1,8 @@
 ---
 packages:
+  - fish
   - stow
+  - tmux
   - tree
 env_auto_dir: ~/.config/env/auto
 s_aliases:

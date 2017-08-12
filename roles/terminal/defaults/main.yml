@@ -1,15 +1,9 @@
 ---
 packages:
-  - fish
   - git
-  - go
   - gnupg
   - htop
-  - hub
   - jq
-  - python-editorconfig
-  - tmux
   - unrar
   - vim
-  - vagrant
   - wget
