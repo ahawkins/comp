@@ -5,3 +5,32 @@
     name: "{{ item }}"
   become: true
   with_items: "{{ packages }}"
+
+- name: Create dockerd overide directory
+  file:
+    state: directory
+    path: /etc/systemd/system/docker.service.d/override.conf
+  become: true
+
+- name: Add dockerd override
+  copy:
+    src: files/docker.service
+    dest: /etc/systemd/system/docker.service.d/override.conf
+  become: true
+  notify:
+    - reload docker
+
+- name: Link packer-io to packer
+  file:
+    state: link
+    src: /usr/bin/packer-io
+    dest: /usr/bin/packer
+  become: true
+
+- name: Add user to docker group
+  user:
+    name: "{{ comp_user }}"
+    groups: docker
+    append: true
+  become: true
+

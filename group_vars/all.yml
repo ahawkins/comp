@@ -7,6 +7,8 @@ keys:
   life_key: comp.life.deploy_key
   difm: comp.difm.key
 
+comp_user: ahawkins
+
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
 s_src_dir: ~/src
 

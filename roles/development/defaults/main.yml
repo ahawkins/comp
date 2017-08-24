@@ -1,6 +1,28 @@
 ---
 packages:
+  - asciidoctor
+  - autoconf
+  - automake
+  - aws-cli
+  - bash-bats
+  - binutils
+  - bison
+  - diffutils
+  - docker
+  - fakeroot
+  - file
+  - findutils
   - go
+  - go-tools
   - hub
+  - make
+  - nodejs
+  - npm
+  - packer-io
+  - patch
   - python-editorconfig
+  - ruby
+  - sed
+  - time
+  - util-linux
   - vagrant
