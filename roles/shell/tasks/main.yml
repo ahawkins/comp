@@ -1,25 +1,52 @@
 ---
-- name: Install packages
-  pacman:
+- name: Tap cask
+  homebrew_tap:
     state: present
     name: "{{ item }}"
-  become: true
+  with_items:
+      - caskroom/cask
+      - caskroom/fonts
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+
+- name: Install packages
+  homebrew:
+    state: present
+    name: "{{ item }}"
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ packages }}"
+
+- name: Install casks
+  homebrew_cask:
+    state: present
+    name: "{{ item }}"
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+  with_items: "{{ casks }}"
+
+- name: Add fish to /etc/shells
+  become: true
+  lineinfile:
+    state: present
+    dest: /etc/shells
+    regexp: fish
+    line: /usr/local/bin/fish
 
 - name: Create configuration directory
   file:
     state: directory
     path: ~/.config/comp
 
-- name: Generate environment file
-  template:
-    src: files/env.fish
-    dest: ~/.config/comp/env.fish
-
-- name: Create env.d directory
-  file:
-    state: directory
-    dest: ~/.config/comp/env.d
+# - name: Generate environment file
+#   template:
+#     src: files/env.fish
+#     dest: ~/.config/comp/env.fish
+#
+# - name: Create env.d directory
+#   file:
+#     state: directory
+#     dest: ~/.config/comp/env.d
 
 - name: Create source code directory
   file:
@@ -51,33 +78,3 @@
     target: install
     chdir: "{{ dotfiles_dir }}"
   when: dotfiles_source.changed
-
-- name: Install dotfiles executable
-  make:
-    target: install-bin
-    chdir: "{{ dotfiles_dir }}"
-  when: dotfiles_source.changed
-  become: true
-
-- name: Clone bindir
-  git:
-    repo: https://github.com/ahawkins/bindir.git
-    dest: "{{ bindir_dir }}"
-    update: false
-
-- name: Configure bindir to push over SSH
-  command: git remote set-url --push origin git@github.com:ahawkins/bindir.git
-  args:
-    chdir: "{{ bindir_dir }}"
-  changed_when: False
-
-- name: Create s config dir
-  file:
-    state: directory
-    dest: ~/.config/s/aliases
-
-- name: Create s aliases
-  copy:
-    dest: "~/.config/s/aliases/{{ item.name }}"
-    content: "{{ item.dest }}"
-  with_items: "{{ s_aliases }}"

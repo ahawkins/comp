@@ -7,8 +7,10 @@ if [ -z "${1:-}" ]; then
 	exit 1
 fi
 
-# ssh-copy-id "${1}"
+host=${1}
 
-ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${1}" 'mkdir -p ~/.comp'
-rsync -avzh --delete -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${1}:.comp"
-ssh "${1}" "sh -c 'cd ~/.comp && script/configure'"
+shift
+
+ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${host}" 'mkdir -p ~/.comp'
+rsync -avzh --delete -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${host}:.comp"
+# ssh "${host}" "sh -c 'cd ~/.comp && script/configure $@'"

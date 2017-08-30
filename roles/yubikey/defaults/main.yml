@@ -1,6 +1,7 @@
 ---
 packages:
-  - pcsc-tools
-  - ccid
-  - libusb-compat
-  - libu2f-host
+  - ykclient
+
+casks:
+  - yubico-authenticator
+  - yubikey-neo-manager

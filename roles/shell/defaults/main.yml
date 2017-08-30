@@ -1,6 +1,11 @@
 ---
 packages:
+  - direnv
+  - fish
+  - reattach-to-user-namespace
   - stow
-s_aliases:
-  - name: ah
-    dest: ahawkins
+
+casks:
+  - font-input
+  - font-lato
+  - font-source-code-pro

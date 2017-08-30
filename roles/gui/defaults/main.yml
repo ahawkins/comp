@@ -1,12 +1,58 @@
 ---
-packages:
-  - adobe-source-code-pro-fonts
-  - chromium
-  - lightdm
-  - lightdm-gtk-greeter
-  - rxvt-unicode
-  - xf86-video-intel
-  - xorg-xbacklight # not sure if this should be here
-  - xorg-server
-  - xorg-xinit
-  - xterm
+casks:
+  - iterm2
+  - skype
+  - spotify
+  - the-unarchiver
+  - veracrypt
+  - vivaldi
+  - vlc
+
+apps:
+  - "411643860" # DaisyDisk
+  - "407963104" # Pixelmator
+  - "803453959" # Slack
+  - "747648890" # Spotify
+  - "747648890" # Telegram
+  - "557168941" # Tweebot
+  - "461369673" # VOX
+
+remove_from_dock:
+  - Launchpad
+  - Mail
+  - Safari
+  - Contacts
+  - Calendar
+  - Notes
+  - Reminders
+  - Maps
+  - Photos
+  - Messages
+  - FaceTime
+  - Pages
+  - Numbers
+  - Keynote
+  - iTunes
+  - iBooks
+  - App Store
+  - Siri
+
+dock_items:
+  - name: iTerm
+    path: "/Applications/iTerm.app"
+    position: 1
+  - name: Vivaldi
+    path: "/Applications/Vivaldi.app"
+    position: 2
+  - name: Tweetbot
+    path: "/Applications/Tweetbot.app"
+    position: 3
+  - name: Telegram
+    path: "/Applications/Telegram.app"
+    position: 4
+  - name: Slack
+    path: "/Applications/Slack.app"
+    position: 5
+  - name: System Preferences
+    path: "/Applications/System Preferences.app"
+    position: 6

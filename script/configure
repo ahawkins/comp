@@ -3,6 +3,10 @@
 set -euo pipefail
 
 bootstrap_osx() {
+	# /usr/local/bin may not be on $PATH on fresh machines. This makes
+	# brew (and installed brews) work throughout this script.
+	export "PATH=/usr/local/bin:${PATH}"
+
 	# Test if xcode developer tools installed
 	if ! which xcodebuild > /dev/null; then
 		echo 'XCode tools not installed.' 1>&2
@@ -18,7 +22,7 @@ bootstrap_osx() {
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	fi
 
-	local -a brews=(python)
+	local -a brews=(python2)
 
 	for item in "${brews[@]}"; do
 		if ! brew list | grep -qF "${item}"; then
@@ -29,22 +33,16 @@ bootstrap_osx() {
 		fi
 	done
 
-	local -a pips=(ansible==2.2.0.0 keyring)
+	local -a pips=(ansible==2.3.2.0 keyring)
 
 	for item in "${pips[@]}"; do
 		if ! which "${item}"; then
 			echo "Installing ${item}"
-			pip install "${item}"
+			pip2 install "${item}"
 		else
 			echo "Skipped ${item}"
 		fi
 	done
-}
-
-bootstrap_arch() {
-	if ! pacman -Qsq ansible &> /dev/null; then
-		sudo pacman -Sf ansible
-	fi
 }
 
 main() {
@@ -56,10 +54,6 @@ main() {
 		*darwin*)
 			bootstrap_osx
 			ansible-playbook configure-osx.yml --ask-become-pass "$@"
-			;;
-		*arch*)
-			bootstrap_arch
-			ansible-playbook configure-arch.yml "$@"
 			;;
 		*)
 			echo "Do not know how to boostrap ${machine}" 1>&2

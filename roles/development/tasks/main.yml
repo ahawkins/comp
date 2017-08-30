@@ -2,11 +2,11 @@
 - name: Tap cask
   homebrew_tap:
     state: present
-    name: caskroom/drivers
+    name: caskroom/cask
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
-- name: Install brews
+- name: Install packages
   homebrew:
     state: present
     name: "{{ item }}"
@@ -14,10 +14,22 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ packages }}"
 
-- name: Install cask
+- name: Install casks
   homebrew_cask:
     state: present
     name: "{{ item }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ casks }}"
+
+# - name: Check minikube status
+#   command: minikube status
+#   changed_when: False
+#   register: status
+#
+# - name: Create minikube
+#   command: minikube start
+#   when: "status.stdout.find('Does Not Exist') != -1"
+#
+# - command: minikube stop
+#   when: "status.stdout.find('Does Not Exist') != -1"

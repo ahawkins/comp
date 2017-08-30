@@ -1,15 +1,23 @@
 ---
 packages:
-  - fish
+  - curl
+  - editorconfig
+  - exif
+  - ffmpeg
   - git
-  - go
   - gnupg
-  - htop
-  - hub
+  - htop-osx
+  - imagemagick
   - jq
-  - python-editorconfig
+  - parallel
+  - rename
+  - ssh-copy-id
+  - the_silver_searcher
   - tmux
+  - trash
+  - tree
   - unrar
   - vim
-  - vagrant
+  - watch
   - wget
+  - youtube-dl

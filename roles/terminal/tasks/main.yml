@@ -1,7 +1,8 @@
 ---
 - name: Install packages
-  pacman:
+  homebrew:
     state: present
     name: "{{ item }}"
-  become: true
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ packages }}"

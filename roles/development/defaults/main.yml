@@ -1,0 +1,11 @@
+---
+packages:
+  - bats
+  - editorconfig
+  - git
+  - go
+
+casks:
+  - minikube
+  - vagrant
+  - virtualbox

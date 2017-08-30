@@ -1,10 +1,12 @@
 ---
-- include: configure-osx-packages.yml
-- include: configure-osx-dock.yml
-- include: configure-shell.yml
-- include: configure-minikube.yml
-- include: configure-ssh.yml
-- include: configure-saltside.yml
-- include: configure-slashdeploy.yml
-- include: configure-music.yml
-- include: configure-tarsnap.yml
+- hosts: localhost
+  connection: local
+  vars:
+    - homebrew_api_token: "{{ lookup('keyring', '{} {}'.format(keys.brew_api_token, ansible_user)) }}"
+  roles:
+    - osx
+    - terminal
+    - shell
+    - development
+    - yubikey
+    - gui
