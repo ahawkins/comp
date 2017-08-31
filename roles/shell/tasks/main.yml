@@ -46,12 +46,12 @@
 - name: Create configuration directory
   file:
     state: directory
-    path: ~/.env/comp
+    path: ~/.config/env/comp
 
 - name: Configure environment variables
   template:
     src: "{{ item }}"
-    dest: ~/.env/comp/{{ item | basename }}
+    dest: ~/.config/env/comp/{{ item | basename }}
   with_fileglob:
     - files/env/*
 
