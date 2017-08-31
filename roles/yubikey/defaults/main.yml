@@ -1,5 +1,6 @@
 ---
 packages:
+  - pinentry-mac
   - ykclient
 
 casks:
