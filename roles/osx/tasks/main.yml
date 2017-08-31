@@ -10,6 +10,5 @@
 - name: Login to app store
   mas_login:
     state: present
-    email: foo@foo.com
     email: "{{ lookup('keyring', '{} {}'.format(keys.mas_account, ansible_user)) }}"
     password: "{{ lookup('keyring', '{} {}'.format(keys.mas_password, ansible_user)) }}"
