@@ -25,6 +25,16 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ casks }}"
 
+- name: Create fish vendor_functions.d
+  file:
+    state: directory
+    dest: /usr/local/share/fish/vendor_functions.d
+
+- name: Install fundle
+  get_url:
+    url: https://git.io/fundle
+    dest: /usr/local/share/fish/vendor_functions.d/fundle.fish
+
 - name: Add fish to /etc/shells
   become: true
   lineinfile:
@@ -36,17 +46,14 @@
 - name: Create configuration directory
   file:
     state: directory
-    path: ~/.config/comp
+    path: ~/.env/comp
 
-# - name: Generate environment file
-#   template:
-#     src: files/env.fish
-#     dest: ~/.config/comp/env.fish
-#
-# - name: Create env.d directory
-#   file:
-#     state: directory
-#     dest: ~/.config/comp/env.d
+- name: Configure environment variables
+  template:
+    src: "{{ item }}"
+    dest: ~/.env/comp/{{ item | basename }}
+  with_fileglob:
+    - files/env/*
 
 - name: Create source code directory
   file:
