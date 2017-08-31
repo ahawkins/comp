@@ -4,6 +4,8 @@ packages:
   - editorconfig
   - git
   - go
+  - kubernetes-cli
+  - kubernetes-helm
 
 casks:
   - minikube
