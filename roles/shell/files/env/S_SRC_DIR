@@ -1,1 +1,1 @@
-{{ s_src_dir }}
+{{ s_src_dir | expanduser }}
