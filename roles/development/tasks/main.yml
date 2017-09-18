@@ -22,18 +22,6 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ casks }}"
 
-# - name: Check minikube status
-#   command: minikube status
-#   changed_when: False
-#   register: status
-#
-# - name: Create minikube
-#   command: minikube start
-#   when: "status.stdout.find('Does Not Exist') != -1"
-#
-# - command: minikube stop
-#   when: "status.stdout.find('Does Not Exist') != -1"
-
 - name: Disable minikube update notifications
   command: minikube config set WantUpdateNotification false
   changed_when: false
