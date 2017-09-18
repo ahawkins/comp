@@ -1,5 +1,6 @@
 ---
 packages:
+  - awscli
   - bats
   - editorconfig
   - git
