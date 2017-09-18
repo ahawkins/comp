@@ -10,6 +10,7 @@ packages:
   - kubernetes-helm
 
 casks:
+  - docker
   - minikube
   - vagrant
   - virtualbox
