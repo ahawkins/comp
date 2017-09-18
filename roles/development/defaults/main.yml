@@ -4,6 +4,7 @@ packages:
   - bats
   - editorconfig
   - git
+  - git-crypt
   - go
   - kubernetes-cli
   - kubernetes-helm
