@@ -2,7 +2,7 @@
 packages:
   - curl
   - editorconfig
-  - exif
+  - exiftool
   - ffmpeg
   - git
   - gnupg
