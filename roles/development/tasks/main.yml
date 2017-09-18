@@ -33,3 +33,19 @@
 #
 # - command: minikube stop
 #   when: "status.stdout.find('Does Not Exist') != -1"
+
+- name: Disable minikube update notifications
+  command: minikube config set WantUpdateNotification false
+  changed_when: false
+
+- name: Configure ahawkins AWS access key
+  command: aws --profile ahawkins configure set aws_access_key_id "{{ lookup('keyring', '{} {}'.format(keys.aws_ahawkins_access_key_id, ansible_user)) }}"
+  changed_when: false
+
+- name: Configure ahawkins AWS secret key
+  command: aws --profile ahawkins configure set aws_secret_access_key "{{ lookup('keyring', '{} {}'.format(keys.aws_ahawkins_secret_access_key, ansible_user)) }}"
+  changed_when: false
+
+- name: Configure ahawkins AWS region
+  command: aws --profile ahawkins configure set region '{{ aws_ahawkins_default_region }}'
+  changed_when: false
