@@ -70,7 +70,7 @@
   git:
     repo: https://github.com/ahawkins/dotfiles.git
     dest: "{{ dotfiles_dir }}"
-    version: refactor/stow
+    version: master
     update: true
   register: dotfiles_source
 
