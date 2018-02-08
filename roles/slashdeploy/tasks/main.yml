@@ -1,0 +1,12 @@
+---
+- name: Configure ahawkins AWS access key
+  command: aws --profile slashdeploy configure set aws_access_key_id "{{ lookup('keyring', '{} {}'.format(slashdeploy_aws_access_key_id_key, ansible_user)) }}"
+  changed_when: false
+
+- name: Configure ahawkins AWS secret key
+  command: aws --profile slashdeploy configure set aws_secret_access_key "{{ lookup('keyring', '{} {}'.format(slashdeploy_aws_secret_access_key_key, ansible_user)) }}"
+  changed_when: false
+
+- name: Configure ahawkins AWS region
+  command: aws --profile slashdeploy configure set region '{{ slashdeploy_aws_default_region }}'
+  changed_when: false
