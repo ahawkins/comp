@@ -22,7 +22,7 @@ bootstrap_osx() {
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	fi
 
-	local -a brews=(python2)
+	local -a brews=(python)
 
 	for item in "${brews[@]}"; do
 		if ! brew list | grep -qF "${item}"; then
