@@ -14,4 +14,3 @@ casks:
   - vagrant
   - virtualbox
 
-aws_ahawkins_default_region: eu-west-1
