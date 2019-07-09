@@ -5,4 +5,4 @@ packages:
 
 casks:
   - yubico-authenticator
-  - yubikey-neo-manager
+  - yubico-yubikey-manager
