@@ -1,11 +1,4 @@
 ---
-- name: Tap cask
-  homebrew_tap:
-    state: present
-    name: caskroom/cask
-  environment:
-    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-
 - name: Install packages
   homebrew:
     state: present
