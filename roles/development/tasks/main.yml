@@ -14,7 +14,18 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ casks }}"
 
-- name: Disable minikube update notifications
-  command: minikube config set WantUpdateNotification false
-  changed_when: false
+- name: Install asdf-vm
+  git:
+    repo: https://github.com/asdf-vm/asdf.git
+    version: v0.7.2
+    update: false
+    dest: ~/.asdf
 
+- name: List asdf-vm plugins
+  command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-list'"
+  register: installed_asdf_plugins
+
+- name: Install asdf-vm plugins
+  command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-add {{ item.name }} {{ item.repo | default(None) }}'"
+  when: "not item.name in installed_asdf_plugins.stdout"
+  loop: "{{ asdf_plugins }}"

@@ -14,3 +14,13 @@ casks:
   - vagrant
   - virtualbox
 
+asdf_plugins:
+  - name: ruby
+  - name: nodejs
+  - name: python
+  - name: kubectl
+    repo: https://github.com/Banno/asdf-kubectl.git
+  - name: helm
+    repo: https://github.com/Antiarchitect/asdf-helm
+  - name: terraform
+    repo: https://github.com/Banno/asdf-hashicorp.git
