@@ -1,7 +1,6 @@
 ---
 packages:
   - curl
-  - editorconfig
   - exiftool
   - ffmpeg
   - git
