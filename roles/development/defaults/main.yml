@@ -5,6 +5,7 @@ packages:
   - editorconfig
   - git
   - git-crypt
+  - shellcheck
   - tmux
   - vim
   - yarn
