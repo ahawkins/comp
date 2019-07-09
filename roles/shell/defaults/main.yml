@@ -2,11 +2,10 @@
 packages:
   - direnv
   - fish
-  - ledger
   - reattach-to-user-namespace
   - stow
 
 casks:
   - font-input
-  - font-lato
   - font-source-code-pro
+  - iterm2
