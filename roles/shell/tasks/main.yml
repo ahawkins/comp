@@ -4,8 +4,7 @@
     state: present
     name: "{{ item }}"
   with_items:
-      - caskroom/cask
-      - caskroom/fonts
+      - homebrew/cask-fonts
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
