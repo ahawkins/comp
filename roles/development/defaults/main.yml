@@ -4,13 +4,13 @@ packages:
   - editorconfig
   - git
   - git-crypt
-  - go
-  - kubernetes-cli
-  - kubernetes-helm
+  - tmux
+  - vim
+  - yarn
 
 casks:
   - docker
-  - minikube
+  - iterm2
   - vagrant
   - virtualbox
 
