@@ -22,25 +22,21 @@ bootstrap_osx() {
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	fi
 
-	local -a brews=(python)
+	if ! brew list | grep ansible &> /dev/null; then
+		echo "Install ansible"
+		brew install ansible
+	fi
 
-	for item in "${brews[@]}"; do
-		if ! brew list | grep -qF "${item}"; then
-			echo "Installing ${item}"
-			brew install "${item}"
-		else
-			echo "Skipped ${item}"
-		fi
-	done
+	local pip="$(brew --prefix ansible)/libexec/bin/pip"
+	local pips=(keyring)
+	# XXX: pip list breaks (?!?) when piped to stdout but not when
+	# captured in a subshell. Computers right?
+	local installed_pips="$("${pip}" list)"
 
-	local -a pips=(ansible==2.3.2.0 keyring)
-
-	for item in "${pips[@]}"; do
-		if ! which "${item}"; then
-			echo "Installing ${item}"
-			pip2 install "${item}"
-		else
-			echo "Skipped ${item}"
+	for package in "${pips[@]}"; do
+		if ! echo "${installed_pips}" | grep -qF "${package}"; then
+			echo "Installing ${package}"
+			"${pip}" install "${package}"
 		fi
 	done
 }
