@@ -48,15 +48,15 @@ bootstrap_osx() {
 main() {
 	local machine
 
-	machine="$(uname -a | tr '[:upper:]' '[:lower:]')"
+	machine="$(hostname)"
 
 	case "${machine}" in
-		*darwin*)
+		*skillshare*)
 			bootstrap_osx
-			ansible-playbook configure-osx.yml --ask-become-pass "$@"
+			ansible-playbook configure-skillshare.yml --ask-become-pass "$@"
 			;;
 		*)
-			echo "Do not know how to boostrap ${machine}" 1>&2
+			echo "Do not know how to bootstrap ${machine}" 1>&2
 			return 1
 			;;
 	esac
