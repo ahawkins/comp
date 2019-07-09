@@ -21,27 +21,6 @@
     name: "{{ item }}"
   with_items: "{{ apps }}"
 
-- name: Remove junk dock items
-  osx_dock:
-    state: absent
-    name: "{{ item }}"
-  with_items: "{{ remove_from_dock }}"
-
-- name: Add dock items
-  osx_dock:
-    state: present
-    name: "{{ item.name }}"
-    path: "{{ item.path }}"
-  with_items: "{{ dock_items }}"
-
-- name: Order dock items
-  osx_dock:
-    state: present
-    name: "{{ item.name }}"
-    path: "{{ item.path }}"
-    position: "{{ item.position }}"
-  with_items: "{{ dock_items }}"
-
 - name: Create comp configuration
   file:
     state: directory
