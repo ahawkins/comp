@@ -41,3 +41,13 @@
     path: "{{ item.path }}"
     position: "{{ item.position }}"
   with_items: "{{ dock_items }}"
+
+- name: Create comp configuration
+  file:
+    state: directory
+    path: ~/.config/comp
+
+- name: Apply git configuration
+  copy:
+    path: files/gitconfig
+    path: ~/.config/comp/git
