@@ -39,6 +39,9 @@ bootstrap_osx() {
 			"${pip}" install "${package}"
 		fi
 	done
+
+	# XXX: https://bugs.python.org/issue35219
+	export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 }
 
 main() {
