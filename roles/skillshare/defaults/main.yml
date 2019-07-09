@@ -1,7 +1,4 @@
 ---
-packages:
-  - dockutil
-
 casks:
   - spotify
   - the-unarchiver
