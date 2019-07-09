@@ -2,7 +2,6 @@
 - name: Install packages
   homebrew:
     state: present
-    name: "{{ item }}"
+    name: "{{ packages }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-  with_items: "{{ packages }}"
