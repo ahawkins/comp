@@ -78,9 +78,3 @@
   args:
     chdir: "{{ dotfiles_dir }}"
   changed_when: false
-
-- name: Install dotfiles
-  make:
-    target: install
-    chdir: "{{ dotfiles_dir }}"
-  when: dotfiles_source.changed
