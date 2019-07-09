@@ -20,5 +20,24 @@
 
 - name: Apply git configuration
   copy:
-    path: files/gitconfig
-    path: ~/.config/comp/git
+    src: files/gitconfig
+    dest: ~/.config/comp/git
+
+- name: Configure environment variables
+  template:
+    src: "{{ item }}"
+    dest: ~/.config/env/comp/{{ item | basename }}
+  with_fileglob:
+    - files/env/*
+
+- name: Configure nonproduction AWS access key
+  command: aws --profile skillshare-nonproduction configure set aws_access_key_id "{{ lookup('keyring', '{} {}'.format(nonproduction_aws_access_key_id_key, ansible_user)) }}"
+  changed_when: false
+
+- name: Configure nonproduction AWS secret key
+  command: aws --profile skillshare-nonproduction configure set aws_secret_access_key "{{ lookup('keyring', '{} {}'.format(nonproduction_aws_secret_access_key_key, ansible_user)) }}"
+  changed_when: false
+
+- name: Configure nonproduction AWS region
+  command: aws --profile skillshare-nonproduction configure set region us-east-1
+  changed_when: false

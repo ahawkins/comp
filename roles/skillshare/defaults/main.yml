@@ -47,3 +47,6 @@ dock_items:
   - name: System Preferences
     path: "/Applications/System Preferences.app"
     position: 6
+
+nonproduction_aws_access_key_id_key: comp.skillshare.aws.nonproduction.access_key_id
+nonproduction_aws_secret_access_key_key: comp.skillshare.aws.nonproduction.secret_access_key
