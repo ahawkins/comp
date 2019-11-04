@@ -18,10 +18,24 @@
     state: directory
     path: ~/.config/comp
 
-- name: Apply git configuration
-  copy:
-    src: files/gitconfig
-    dest: ~/.config/comp/git
+- name: Copy comp files
+  template:
+    src: "{{ item }}"
+    dest: ~/.config/comp/{{ item | basename }}
+  with_fileglob:
+    - files/comp/*
+
+- name: Creat config directory
+  file:
+    state: directory
+    path: ~/.config/skillshare
+
+- name: Copy config files
+  template:
+    src: "{{ item }}"
+    dest: ~/.config/skillshare/{{ item | basename }}
+  with_fileglob:
+    - files/config/*
 
 - name: Configure environment variables
   template:

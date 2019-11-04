@@ -1,0 +1,2 @@
+[includeIf "gitdir/i:skillshare/"]
+	path = ~/.config/skillshare/gitconfig
