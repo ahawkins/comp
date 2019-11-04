@@ -64,13 +64,18 @@
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
+- name: Check dotfiles
+  stat:
+    path: "{{ dotfiles_dir }}"
+  register: dotfiles_stat
+
 - name: Clone dotfiles
   git:
     repo: https://github.com/ahawkins/dotfiles.git
     dest: "{{ dotfiles_dir }}"
     version: master
     update: true
-  register: dotfiles_source
+  when: dotfiles_stat.stat.isdir == False
 
 - name: Configure dotfiles to push over SSH
   command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
