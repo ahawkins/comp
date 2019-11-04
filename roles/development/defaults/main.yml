@@ -1,7 +1,7 @@
 ---
 packages:
   - awscli
-  - bats
+  - bats-core
   - editorconfig
   - git
   - git-crypt
