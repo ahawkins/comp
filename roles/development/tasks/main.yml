@@ -26,6 +26,6 @@
   register: installed_asdf_plugins
 
 - name: Install asdf-vm plugins
-  command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-add {{ item.name }} {{ item.repo | default(None) }}'"
-  when: "not item.name in installed_asdf_plugins.stdout"
+  command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-add {{ item }}'"
+  when: "not item in installed_asdf_plugins.stdout"
   loop: "{{ asdf_plugins }}"
