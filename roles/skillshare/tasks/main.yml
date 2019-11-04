@@ -84,3 +84,13 @@
   command: kubectl config set-context '{{ item.name }}' --namespace '{{ item.namespace }}'
   loop: "{{ eks_contexts + kops_contexts }}"
   changed_when: false
+
+- name: Create source directory
+  file:
+    state: directory
+    path: "{{ s_src_dir }}/skillshare"
+
+- name: Configure .tool-versions
+  copy:
+    src: files/tool-versions
+    dest: "{{ s_src_dir }}/skillshare/.tool-versions"
