@@ -1,11 +1,15 @@
 ---
 packages:
   - awscli
+  - aws-iam-authenticator
   - bats-core
+  - circleci
   - editorconfig
   - git
   - git-crypt
+  - git-secrets
   - shellcheck
+  - stern
   - tmux
   - vim
   - yarn
