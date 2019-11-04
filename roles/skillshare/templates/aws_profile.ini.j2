@@ -1,0 +1,8 @@
+[profile {{ item.name }}]
+region = {{ item.region }}
+{% if 'source_profile' in item %}
+source_profile = {{ item.source_profile }}
+{% endif %}
+{% if 'role_arn' in item %}
+role_arn = {{ item.role_arn }}
+{% endif %}

@@ -41,12 +41,48 @@ dock_items:
   - name: Slack
     path: "/Applications/Slack.app"
     position: 3
-  - name: Notes
-    path: "/Applications/Notes.app"
-    position: 4
   - name: System Preferences
     path: "/Applications/System Preferences.app"
     position: 6
 
-nonproduction_aws_access_key_id_key: comp.skillshare.aws.nonproduction.access_key_id
-nonproduction_aws_secret_access_key_key: comp.skillshare.aws.nonproduction.secret_access_key
+# FIXME: seems there is a bug where "ansible_user" is undefined when evaluating this file.
+# The bug did not exist when evaluated in the playbook.
+aws_access_key_id: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.admin.access_key_id', 'ahawkins')) }}"
+aws_secret_access_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.admin.secret_access_key', 'ahawkins')) }}"
+
+aws_profiles:
+  - name: skillshare-admin
+    region: us-east-1
+
+  - name: skillshare-staging
+    region: us-east-1
+    source_profile: skillshare-admin
+    role_arn: "arn:aws:iam::{{ lookup('env', 'SKILLSHARE_AWS_PROD_ACCOUNT_ID') }}:role/administrator"
+
+  - name: skillshare-production
+    region: us-east-1
+    source_profile: skillshare-admin
+    role_arn: "arn:aws:iam::{{ lookup('env', 'SKILLSHARE_AWS_PROD_ACCOUNT_ID') }}:role/administrator"
+
+  - name: skillshare-utility
+    region: us-east-1
+    source_profile: skillshare-admin
+    role_arn: "arn:aws:iam::{{ lookup('env', 'SKILLSHARE_AWS_UTILITY_ACCOUNT_ID') }}:role/administrator"
+
+kops_contexts:
+  - name: skillshare-prod
+    cluster: "{{ lookup('env', 'SKILLSHARE_PROD_CLUSTER') }}"
+    namespace: prod
+
+  - name: skillshare-qa
+    cluster: "{{ lookup('env', 'SKILLSHARE_QA_CLUSTER') }}"
+    namespace: qa-master
+
+eks_contexts:
+  - name: skillshare-utility
+    cluster: "{{ lookup('env', 'SKILLSHARE_UTILITY_CLUSTER') }}"
+    namespace: tools
+
+  - name: skillshare-staging
+    cluster: "{{ lookup('env', 'SKILLSHARE_STAGING_CLUSTER') }}"
+    namespace: staging

@@ -30,14 +30,43 @@
   with_fileglob:
     - files/env/*
 
-- name: Configure nonproduction AWS access key
-  command: aws --profile skillshare-nonproduction configure set aws_access_key_id "{{ lookup('keyring', '{} {}'.format(nonproduction_aws_access_key_id_key, ansible_user)) }}"
+- name: Configure source AWS access key
+  command: aws --profile skillshare-admin configure set aws_access_key_id '{{ aws_access_key_id }}'
   changed_when: false
 
-- name: Configure nonproduction AWS secret key
-  command: aws --profile skillshare-nonproduction configure set aws_secret_access_key "{{ lookup('keyring', '{} {}'.format(nonproduction_aws_secret_access_key_key, ansible_user)) }}"
+- name: Configure source AWS secret access key
+  command: aws --profile skillshare-admin configure set aws_secret_access_key '{{ aws_secret_access_key }}'
   changed_when: false
 
-- name: Configure nonproduction AWS region
-  command: aws --profile skillshare-nonproduction configure set region us-east-1
+- name: Configure AWS profile
+  blockinfile:
+    state: present
+    path: ~/.aws/config
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+    block: "{{ lookup('template', 'templates/aws_profile.ini.j2') }}"
+  loop: "{{ aws_profiles}}"
+
+- command: kubectl config get-contexts -o name
+  register: configured_kubectl_contexts
+  changed_when: false
+
+- name: Configure Kops contexts
+  command: kops export kubecfg '{{ item.cluster }}'
+  loop: "{{ kops_contexts }}"
+  changed_when: false
+
+- name: Rename kops contexts
+  command: kubectl config rename-context '{{ item.cluster }}' '{{ item.name }}'
+  when: configured_kubectl_contexts.stdout.find(item.name) == -1
+  loop: "{{ kops_contexts }}"
+  changed_when: false
+
+- name: Configure EKS contexts
+  command: aws --profile '{{ item.name }}' eks update-kubeconfig --name '{{ item.cluster }}' --alias '{{ item.name }}'
+  loop: "{{ eks_contexts }}"
+  changed_when: false
+
+- name: Configure context namespaces
+  command: kubectl config set-context '{{ item.name }}' --namespace '{{ item.namespace }}'
+  loop: "{{ eks_contexts + kops_contexts }}"
   changed_when: false
