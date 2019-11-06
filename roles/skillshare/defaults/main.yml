@@ -49,6 +49,7 @@ dock_items:
 # The bug did not exist when evaluated in the playbook.
 aws_access_key_id: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.admin.access_key_id', 'ahawkins')) }}"
 aws_secret_access_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.admin.secret_access_key', 'ahawkins')) }}"
+github_access_token: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.github.access_token', 'ahawkins')) }}"
 
 aws_profiles:
   - name: skillshare-admin
