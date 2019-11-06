@@ -85,6 +85,13 @@
   loop: "{{ eks_contexts + kops_contexts }}"
   changed_when: false
 
+  # XXX: https://github.com/aws/aws-cli/issues/4337
+- name: Patch AWS_PROFILE bug
+  replace:
+    path: ~/.kube/config
+    regexp: AWS_PROFILE
+    replace: AWS_DEFAULT_PROFILE
+
 - name: Create source directory
   file:
     state: directory
