@@ -80,10 +80,22 @@ kops_contexts:
     namespace: qa-master
 
 eks_contexts:
-  - name: skillshare-utility
+  - profile: skillshare-utility
+    name: skillshare-utility
     cluster: "{{ lookup('env', 'SKILLSHARE_UTILITY_CLUSTER') }}"
     namespace: tools
 
-  - name: skillshare-staging
+  - profile: skillshare-production
+    name: skillshare-staging
     cluster: "{{ lookup('env', 'SKILLSHARE_STAGING_CLUSTER') }}"
     namespace: staging
+
+  - profile: skillshare-production
+    name: skillshare-sandbox
+    cluster: "{{ lookup('env', 'SKILLSHARE_SANDBOX_CLUSTER') }}"
+    namespace: sandbox-master
+
+  - profile: skillshare-production
+    name: skillshare-data-science
+    cluster: "{{ lookup('env', 'SKILLSHARE_DATA_SCIENCE_CLUSTER') }}"
+    namespace: prod

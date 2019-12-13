@@ -76,7 +76,7 @@
   changed_when: false
 
 - name: Configure EKS contexts
-  command: aws --profile '{{ item.name }}' eks update-kubeconfig --name '{{ item.cluster }}' --alias '{{ item.name }}'
+  command: aws --profile '{{ item.profile }}' eks update-kubeconfig --name '{{ item.cluster }}' --alias '{{ item.name }}'
   loop: "{{ eks_contexts }}"
   changed_when: false
 
