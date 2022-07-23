@@ -6,6 +6,6 @@ keys:
   mas_password: comp.mas.password
 
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
-s_src_dir: "{{ '~/src' | expanduser }}"
+s_src_dir: "{{ '~/Developer' | expanduser }}"
 
 dotfiles_dir: "{{ s_src_dir }}/ahawkins/dotfiles"
