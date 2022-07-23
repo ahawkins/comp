@@ -10,8 +10,8 @@ packages:
   - jq
   - parallel
   - rename
+  - rg
   - ssh-copy-id
-  - the_silver_searcher
   - tmux
   - trash
   - tree
