@@ -7,6 +7,7 @@ packages:
   - gnupg
   - htop-osx
   - imagemagick
+  - jo
   - jq
   - parallel
   - rename
