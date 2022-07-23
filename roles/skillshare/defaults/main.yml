@@ -5,12 +5,6 @@ casks:
   - vlc
   - font-lato
 
-apps:
-  - "411643860"  # DaisyDisk
-  - "803453959"  # Slack
-  - "747648890"  # Spotify
-  - "557168941"  # Tweebot
-
 remove_from_dock:
   - Launchpad
   - Mail
