@@ -1,7 +1,5 @@
 ---
 casks:
-  - spotify
-  - the-unarchiver
   - font-lato
 
 remove_from_dock:

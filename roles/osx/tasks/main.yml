@@ -6,3 +6,11 @@
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ packages }}"
+
+- name: Install casks
+  homebrew_cask:
+    state: present
+    name: "{{ item }}"
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+  with_items: "{{ casks }}"
