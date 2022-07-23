@@ -28,3 +28,5 @@ asdf_plugins:
   - python
   - ruby
   - terraform
+
+asdf_version: 0.10.2
