@@ -2,7 +2,6 @@
 casks:
   - spotify
   - the-unarchiver
-  - vlc
   - font-lato
 
 remove_from_dock:
