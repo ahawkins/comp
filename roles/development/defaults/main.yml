@@ -17,8 +17,6 @@ packages:
 casks:
   - docker
   - iterm2
-  - vagrant
-  - virtualbox
 
 asdf_plugins:
   - helm
