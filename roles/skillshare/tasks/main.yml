@@ -7,12 +7,6 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
   with_items: "{{ casks }}"
 
-- name: Install apps
-  mas_app:
-    state: present
-    name: "{{ item }}"
-  with_items: "{{ apps }}"
-
 - name: Create comp configuration
   file:
     state: directory
