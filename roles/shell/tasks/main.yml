@@ -23,16 +23,14 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Create fish vendor_functions.d
-  become: true
   file:
     state: directory
-    dest: /usr/local/share/fish/vendor_functions.d
+    dest: "{{ brew_prefix }}/share/fish/vendor_functions.d"
 
 - name: Install fundle
-  become: true
   get_url:
     url: https://git.io/fundle
-    dest: /usr/local/share/fish/vendor_functions.d/fundle.fish
+    dest: "{{ brew_prefix }}/share/fish/vendor_functions.d/fundle.fish"
 
 - name: Add fish to /etc/shells
   become: true
@@ -40,7 +38,7 @@
     state: present
     dest: /etc/shells
     regexp: fish
-    line: /usr/local/bin/fish
+    line: "{{ brew_prefix }}/bin/fish"
 
 - name: Create configuration directory
   file:
