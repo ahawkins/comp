@@ -2,40 +2,6 @@
 casks:
   - font-lato
 
-remove_from_dock:
-  - Launchpad
-  - Mail
-  - Safari
-  - Contacts
-  - Calendar
-  - Notes
-  - Reminders
-  - Maps
-  - Photos
-  - Messages
-  - FaceTime
-  - Pages
-  - Numbers
-  - Keynote
-  - iTunes
-  - iBooks
-  - App Store
-  - Siri
-
-dock_items:
-  - name: iTerm
-    path: "/Applications/iTerm.app"
-    position: 1
-  - name: Chrome
-    path: "/Applications/Google Chrome.app"
-    position: 2
-  - name: Slack
-    path: "/Applications/Slack.app"
-    position: 3
-  - name: System Preferences
-    path: "/Applications/System Preferences.app"
-    position: 6
-
 # FIXME: seems there is a bug where "ansible_user" is undefined when evaluating this file.
 # The bug did not exist when evaluated in the playbook.
 aws_access_key_id: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.access_key_id', comp_username)) }}"
