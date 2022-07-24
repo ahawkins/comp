@@ -1,8 +1,5 @@
 ---
 packages:
   - pinentry-mac
-  - ykclient
+  - yubikey-personalization
 
-casks:
-  - yubico-authenticator
-  - yubico-yubikey-manager
