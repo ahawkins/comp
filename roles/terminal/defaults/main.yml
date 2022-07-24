@@ -16,7 +16,6 @@ packages:
   - tmux
   - trash
   - tree
-  - unrar
   - vim
   - watch
   - wget
