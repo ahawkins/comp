@@ -13,6 +13,7 @@ packages:
   - rename
   - rg
   - ssh-copy-id
+  - svn
   - tmux
   - trash
   - tree
