@@ -23,11 +23,13 @@
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Create fish vendor_functions.d
+  become: true
   file:
     state: directory
     dest: /usr/local/share/fish/vendor_functions.d
 
 - name: Install fundle
+  become: true
   get_url:
     url: https://git.io/fundle
     dest: /usr/local/share/fish/vendor_functions.d/fundle.fish
