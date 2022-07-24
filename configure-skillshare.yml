@@ -2,7 +2,7 @@
 - hosts: localhost
   connection: local
   vars:
-    - homebrew_api_token: "{{ lookup('keyring', '{} {}'.format(keys.brew_api_token, ansible_user)) }}"
+    - homebrew_api_token: "{{ lookup('keyring', '{} {}'.format(keys.brew_api_token, comp_username)) }}"
   roles:
     - terminal
     - shell
