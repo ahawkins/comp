@@ -2,10 +2,9 @@
 - name: Install casks
   homebrew_cask:
     state: present
-    name: "{{ item }}"
+    name: "{{ casks }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-  with_items: "{{ casks }}"
 
 - name: Create comp configuration
   file:
