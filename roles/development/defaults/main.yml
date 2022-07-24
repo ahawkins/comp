@@ -8,6 +8,7 @@ packages:
   - git
   - git-crypt
   - git-secrets
+  - go-task/tap/go-task
   - shellcheck
   - stern
   - tmux
