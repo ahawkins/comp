@@ -3,5 +3,8 @@ packages:
   - dockutil
 
 casks:
+  - adguard
+  - cleanshot
+  - notion
   - spotify
   - the-unarchiver
