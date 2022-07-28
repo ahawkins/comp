@@ -5,6 +5,7 @@ packages:
   - bats-core
   - circleci
   - editorconfig
+  - fzf
   - git
   - git-crypt
   - git-secrets
