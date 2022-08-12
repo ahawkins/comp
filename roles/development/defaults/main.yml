@@ -21,6 +21,7 @@ casks:
   - iterm2
 
 asdf_plugins:
+  - direnv
   - helm
   - kubectl
   - nodejs
