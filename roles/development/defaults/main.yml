@@ -23,6 +23,7 @@ casks:
 asdf_plugins:
   - direnv
   - helm
+  - java
   - kubectl
   - nodejs
   - packer
