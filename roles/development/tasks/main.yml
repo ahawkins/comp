@@ -23,6 +23,7 @@
 - name: List asdf-vm plugins
   command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-list'"
   register: installed_asdf_plugins
+  changed_when: false
 
 - name: Install asdf-vm plugins
   command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-add {{ item }}'"
