@@ -5,6 +5,7 @@ packages:
   - ffmpeg
   - git
   - gnupg
+  - hub
   - htop-osx
   - imagemagick
   - jo
