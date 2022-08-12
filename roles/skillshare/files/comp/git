@@ -1,2 +1,5 @@
+[user]
+	signingkey = FF10EE8681796CCC
+
 [includeIf "gitdir/i:skillshare/"]
 	path = ~/.config/skillshare/gitconfig
