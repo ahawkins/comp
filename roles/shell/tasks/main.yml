@@ -57,6 +57,11 @@
     state: directory
     path: "{{ s_src_dir }}"
 
+- name: Create ~/.ssh
+  file:
+    state: directory
+    path: ~/.ssh
+
 - name: Accept github key
   known_hosts:
     state: present
@@ -74,7 +79,7 @@
     dest: "{{ dotfiles_dir }}"
     version: master
     update: true
-  when: dotfiles_stat.stat.isdir == False
+  when: dotfiles_stat.stat.exists == False
 
 - name: Configure dotfiles to push over SSH
   command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
