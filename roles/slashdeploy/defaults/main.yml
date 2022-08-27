@@ -1,4 +1,8 @@
 ---
-slashdeploy_aws_default_region: eu-west-1
-slashdeploy_aws_access_key_id_key: comp.slashdeploy.aws.access_key_id
-slashdeploy_aws_secret_access_key_key: comp.slashdeploy.aws.secret_access_key
+aws_default_region: us-east-1
+
+aws_access_key_id: "{{ lookup('keyring', '{} {}'.format('comp.slashdeploy.aws.access_key_id', comp_username)) }}"
+aws_secret_access_key: "{{ lookup('keyring', '{} {}'.format('comp.slashdeploy.aws.secret_access_key', comp_username)) }}"
+
+casks:
+  - descript

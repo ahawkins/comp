@@ -5,6 +5,7 @@ packages:
 casks:
   - adguard
   - cleanshot
+  - google-chrome
   - notion
   - slack
   - spotify

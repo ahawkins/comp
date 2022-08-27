@@ -8,4 +8,5 @@
     - shell
     - development
     - yubikey
+    - slashdeploy
     - osx

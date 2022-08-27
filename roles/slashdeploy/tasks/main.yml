@@ -1,12 +1,30 @@
 ---
-- name: Configure ahawkins AWS access key
-  command: aws --profile slashdeploy configure set aws_access_key_id "{{ lookup('keyring', '{} {}'.format(slashdeploy_aws_access_key_id_key, ansible_user)) }}"
+- name: Install casks
+  homebrew_cask:
+    state: present
+    name: "{{ casks }}"
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+
+- name: Check AWS caller identity
+  aws_caller_info:
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
+    region: "us-east-1"
+
+- name: Configure AWS access key
+  command: aws --profile slashdeploy configure set aws_access_key_id '{{ aws_access_key_id }}'
   changed_when: false
 
-- name: Configure ahawkins AWS secret key
-  command: aws --profile slashdeploy configure set aws_secret_access_key "{{ lookup('keyring', '{} {}'.format(slashdeploy_aws_secret_access_key_key, ansible_user)) }}"
+- name: Configure AWS secret key
+  command: aws --profile slashdeploy configure set aws_secret_access_key '{{ aws_secret_access_key }}'
   changed_when: false
 
 - name: Configure ahawkins AWS region
-  command: aws --profile slashdeploy configure set region '{{ slashdeploy_aws_default_region }}'
+  command: aws --profile slashdeploy configure set region '{{ aws_default_region }}'
   changed_when: false
+
+- name: Check profile
+  aws_caller_info:
+    profile: slashdeploy
+    region: us-east-1
