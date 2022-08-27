@@ -5,17 +5,19 @@ packages:
   - ffmpeg
   - git
   - gnupg
+  - hub
   - htop-osx
   - imagemagick
+  - jo
   - jq
   - parallel
   - rename
+  - rg
   - ssh-copy-id
-  - the_silver_searcher
+  - svn
   - tmux
   - trash
   - tree
-  - unrar
   - vim
   - watch
   - wget

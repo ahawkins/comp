@@ -50,9 +50,13 @@ main() {
 	machine="$(hostname)"
 
 	case "${machine}" in
-		*skillshare*)
+		*[Ss]killshare*)
 			bootstrap_osx
 			ansible-playbook configure-skillshare.yml --ask-become-pass "$@"
+			;;
+		*[Hh]okulea*)
+			bootstrap_osx
+			ansible-playbook configure-comp.yml --ask-become-pass "$@"
 			;;
 		*)
 			echo "Do not know how to bootstrap ${machine}" 1>&2

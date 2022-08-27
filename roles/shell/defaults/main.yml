@@ -9,3 +9,5 @@ casks:
   - font-input
   - font-source-code-pro
   - iterm2
+
+github_token: "{{ lookup('keyring', '{} {}'.format('comp.github.access_token', comp_username)) }}"

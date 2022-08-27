@@ -2,10 +2,12 @@
 # the value is needed. Otherwise they are passed pass to the lookup.
 keys:
   brew_api_token: comp.brew.api_token
-  mas_account: comp.mas.account
-  mas_password: comp.mas.password
+
+comp_username: ahawkins
 
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
-s_src_dir: ~/src
+s_src_dir: "{{ '~/Developer' | expanduser }}"
 
 dotfiles_dir: "{{ s_src_dir }}/ahawkins/dotfiles"
+
+brew_prefix: "{{ (ansible_facts.architecture == 'x86_64') | ternary('/usr/local', '/opt/homebrew') }}"

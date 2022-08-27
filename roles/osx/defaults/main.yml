@@ -1,4 +1,11 @@
 ---
 packages:
   - dockutil
-  - mas
+
+casks:
+  - adguard
+  - cleanshot
+  - notion
+  - slack
+  - spotify
+  - the-unarchiver

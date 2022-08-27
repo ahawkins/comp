@@ -2,21 +2,19 @@
 - name: Install casks
   homebrew_cask:
     state: present
-    name: "{{ item }}"
+    name: "{{ casks }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-  with_items: "{{ casks }}"
-
-- name: Install apps
-  mas_app:
-    state: present
-    name: "{{ item }}"
-  with_items: "{{ apps }}"
 
 - name: Create comp configuration
   file:
     state: directory
     path: ~/.config/comp
+
+- name: Copy comp configuration file
+  copy:
+    src: files/comp/env.fish
+    dest: ~/.config/comp/env.fish
 
 - name: Copy comp files
   template:
@@ -44,60 +42,26 @@
   with_fileglob:
     - files/env/*
 
-- name: Configure source AWS access key
-  command: aws --profile skillshare-admin configure set aws_access_key_id '{{ aws_access_key_id }}'
-  changed_when: false
-
-- name: Configure source AWS secret access key
-  command: aws --profile skillshare-admin configure set aws_secret_access_key '{{ aws_secret_access_key }}'
-  changed_when: false
-
-- name: Configure AWS profile
-  blockinfile:
-    state: present
-    path: ~/.aws/config
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-    block: "{{ lookup('template', 'templates/aws_profile.ini.j2') }}"
-  loop: "{{ aws_profiles}}"
-
-- command: kubectl config get-contexts -o name
-  register: configured_kubectl_contexts
-  changed_when: false
-
-- name: Configure Kops contexts
-  command: kops export kubecfg '{{ item.cluster }}'
-  loop: "{{ kops_contexts }}"
-  changed_when: false
-
-- name: Rename kops contexts
-  command: kubectl config rename-context '{{ item.cluster }}' '{{ item.name }}'
-  when: configured_kubectl_contexts.stdout.find(item.name) == -1
-  loop: "{{ kops_contexts }}"
-  changed_when: false
-
-- name: Configure EKS contexts
-  command: aws --profile '{{ item.profile }}' eks update-kubeconfig --name '{{ item.cluster }}' --alias '{{ item.name }}'
-  loop: "{{ eks_contexts }}"
-  changed_when: false
-
-- name: Configure context namespaces
-  command: kubectl config set-context '{{ item.name }}' --namespace '{{ item.namespace }}'
-  loop: "{{ eks_contexts + kops_contexts }}"
-  changed_when: false
-
-  # XXX: https://github.com/aws/aws-cli/issues/4337
-- name: Patch AWS_PROFILE bug
-  replace:
-    path: ~/.kube/config
-    regexp: AWS_PROFILE
-    replace: AWS_DEFAULT_PROFILE
+- name: Remove dead environment variables
+  file:
+    state: absent
+    dest: ~/.config/env/comp/{{ item }}
+  loop:
+    - AWS_DEFAULT_PROFILE
+    - AWS_PROFILE
+    - KOP_STATE_STORE
+    - SKILLSHARE_AWS_ADMIN_ACCOUNT_ID
+    - SKILLSHARE_AWS_PROD_ACCOUNT_ID
+    - SKILLSHARE_AWS_UTILITY_ACCOUNT_ID
+    - SKILLSHARE_DATA_SCIENCE_CLUSTER
+    - SKILLSHARE_PROD_CLUSTER
+    - SKILLSHARE_QA_CLUSTER
+    - SKILLSHARE_SANDBOX_CLUSTER
+    - SKILLSHARE_STAGING_CLUSTER
+    - SKILLSHARE_UTILITY_CLUSTER
+    - SKILLSHARE_GITHUB_ACCESS_TOKEN
 
 - name: Create source directory
   file:
     state: directory
     path: "{{ s_src_dir }}/skillshare"
-
-- name: Configure .tool-versions
-  copy:
-    src: files/tool-versions
-    dest: "{{ s_src_dir }}/skillshare/.tool-versions"

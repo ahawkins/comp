@@ -5,9 +5,11 @@ packages:
   - bats-core
   - circleci
   - editorconfig
+  - fzf
   - git
   - git-crypt
   - git-secrets
+  - go-task/tap/go-task
   - shellcheck
   - stern
   - tmux
@@ -17,14 +19,16 @@ packages:
 casks:
   - docker
   - iterm2
-  - vagrant
-  - virtualbox
 
 asdf_plugins:
+  - direnv
   - helm
+  - java
   - kubectl
   - nodejs
   - packer
   - python
   - ruby
   - terraform
+
+asdf_version: 0.10.2

@@ -18,20 +18,19 @@
 - name: Install casks
   homebrew_cask:
     state: present
-    name: "{{ item }}"
+    name: "{{ casks }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-  with_items: "{{ casks }}"
 
 - name: Create fish vendor_functions.d
   file:
     state: directory
-    dest: /usr/local/share/fish/vendor_functions.d
+    dest: "{{ brew_prefix }}/share/fish/vendor_functions.d"
 
 - name: Install fundle
   get_url:
     url: https://git.io/fundle
-    dest: /usr/local/share/fish/vendor_functions.d/fundle.fish
+    dest: "{{ brew_prefix }}/share/fish/vendor_functions.d/fundle.fish"
 
 - name: Add fish to /etc/shells
   become: true
@@ -39,7 +38,7 @@
     state: present
     dest: /etc/shells
     regexp: fish
-    line: /usr/local/bin/fish
+    line: "{{ brew_prefix }}/bin/fish"
 
 - name: Create configuration directory
   file:
@@ -58,6 +57,11 @@
     state: directory
     path: "{{ s_src_dir }}"
 
+- name: Create ~/.ssh
+  file:
+    state: directory
+    path: ~/.ssh
+
 - name: Accept github key
   known_hosts:
     state: present
@@ -75,7 +79,7 @@
     dest: "{{ dotfiles_dir }}"
     version: master
     update: true
-  when: dotfiles_stat.stat.isdir == False
+  when: dotfiles_stat.stat.exists == False
 
 - name: Configure dotfiles to push over SSH
   command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git

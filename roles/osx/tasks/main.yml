@@ -1,14 +1,14 @@
 ---
-- name: Install mas
+- name: Install brews
   homebrew:
     state: present
-    name: "{{ item }}"
+    name: "{{ packages }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-  with_items: "{{ packages }}"
 
-- name: Login to app store
-  mas_login:
+- name: Install casks
+  homebrew_cask:
     state: present
-    email: "{{ lookup('keyring', '{} {}'.format(keys.mas_account, ansible_user)) }}"
-    password: "{{ lookup('keyring', '{} {}'.format(keys.mas_password, ansible_user)) }}"
+    name: "{{ casks }}"
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
