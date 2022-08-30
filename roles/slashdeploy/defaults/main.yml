@@ -6,3 +6,4 @@ aws_secret_access_key: "{{ lookup('keyring', '{} {}'.format('comp.slashdeploy.aw
 
 casks:
   - descript
+  - focusrite-control

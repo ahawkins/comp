@@ -1,4 +1,13 @@
 ---
+- name: Tap cask
+  homebrew_tap:
+    state: present
+    name: "{{ item }}"
+  with_items:
+      - homebrew/cask-drivers
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+
 - name: Install casks
   homebrew_cask:
     state: present
