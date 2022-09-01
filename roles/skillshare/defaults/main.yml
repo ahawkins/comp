@@ -6,3 +6,6 @@ casks:
 # The bug did not exist when evaluated in the playbook.
 aws_access_key_id: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.access_key_id', comp_username)) }}"
 aws_secret_access_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.aws.secret_access_key', comp_username)) }}"
+
+cf_api_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.codefresh.api_key', comp_username)) }}"
+npm_token: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.npm.token', comp_username)) }}"
