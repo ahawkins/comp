@@ -7,3 +7,4 @@ casks:
 cf_api_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.codefresh.api_key', comp_username)) }}"
 npm_token: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.npm.token', comp_username)) }}"
 dd_app_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.datadog.app_key', comp_username)) }}"
+dd_api_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.datadog.api_key', comp_username)) }}"
