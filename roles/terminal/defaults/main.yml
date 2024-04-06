@@ -6,7 +6,7 @@ packages:
   - git
   - gnupg
   - hub
-  - htop-osx
+  - htop
   - imagemagick
   - jo
   - jq
