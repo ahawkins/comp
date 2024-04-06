@@ -2,40 +2,32 @@
 
 set -euo pipefail
 
+source script/util.sh
+
 bootstrap_osx() {
 	# /usr/local/bin may not be on $PATH on fresh machines. This makes
 	# brew (and installed brews) work throughout this script.
 	export "PATH=/usr/local/bin:${PATH}"
 
-	# Test if xcode developer tools installed
-	if ! which xcodebuild > /dev/null; then
-		echo 'XCode tools not installed.' 1>&2
-		echo 'Confirm installation in the GUI and retry this program' 1>&2
-
-		xcode-select --install
-
-		exit 1
-	fi
-
-	if ! which brew > /dev/null; then
-		echo "Installing homebrew"
-		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	if ! command -v brew &> /dev/null; then
+		log::error "Brew not found. Install manually and retry"
+		return 1
 	fi
 
 	if ! brew list | grep ansible &> /dev/null; then
-		echo "Install ansible"
-		brew install ansible
+		log::indicator "Install ansible"
+		log::exec_command brew install ansible
 	fi
 
 	# XXX: Use whatever the current python is. This assumes that ansible is using
 	# the latest python.
 	export PATH="$(brew --prefix python)/bin:${PATH}"
 
-	echo "Checking versions"
+	log::indicator "Checking versions"
 
-	ansible --version
-	python3 --version
-	pip3 --version
+	log::exec_command ansible --version
+	log::exec_command python3 --version
+	log::exec_command pip3 --version
 
 	local pips=(keyring)
 	# XXX: pip list breaks (?!?) when piped to stdout but not when
@@ -44,7 +36,7 @@ bootstrap_osx() {
 
 	for package in "${pips[@]}"; do
 		if ! echo "${installed_pips}" | grep -qF "${package}"; then
-			echo "Installing ${package}"
+			log::indicator "Installing ${package}"
 			# XXX: https://docs.brew.sh/Homebrew-and-Python#pep-668-python312-and-virtual-environments
 			#
 			# This used to work before python 3.12. The script could use the brew
@@ -54,7 +46,7 @@ bootstrap_osx() {
 			# the --break-system-packages. I selected --break-system-packages because
 			# there is a single dependency. Mucking with virtulenvs felt like
 			# it would conflict with whateve brew is doing for pythong/ansible.
-			pip3 install "${package}" --break-system-packages
+			log::exec_command pip3 install "${package}" --break-system-packages
 		fi
 	done
 
@@ -67,17 +59,19 @@ main() {
 
 	machine="$(hostname)"
 
+	log::header "Running on ${machine}"
+
 	case "${machine}" in
 		*[Ss]killshare*)
 			bootstrap_osx
-			ansible-playbook configure-skillshare.yml --ask-become-pass "$@"
+			log::exec_command ansible-playbook configure-skillshare.yml --ask-become-pass "$@"
 			;;
 		*[Hh]okulea*)
 			bootstrap_osx
-			ansible-playbook configure-comp.yml --ask-become-pass "$@"
+			log::exec_command ansible-playbook configure-comp.yml --ask-become-pass "$@"
 			;;
 		*)
-			echo "Do not know how to bootstrap ${machine}" 1>&2
+			log::error "Do not know how to bootstrap ${machine}"
 			return 1
 			;;
 	esac
