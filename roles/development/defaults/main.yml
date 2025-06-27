@@ -7,7 +7,6 @@ packages:
   - editorconfig
   - fzf
   - jwt-cli
-  - jo
   - git
   - git-crypt
   - git-secrets

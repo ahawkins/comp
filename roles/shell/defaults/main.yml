@@ -4,7 +4,6 @@ packages:
   - fish
   - reattach-to-user-namespace
   - stow
-  - bat
 
 casks:
   - font-input

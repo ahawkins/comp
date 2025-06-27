@@ -1,5 +1,6 @@
 ---
 packages:
+  - bat
   - curl
   - exiftool
   - ffmpeg
@@ -10,6 +11,7 @@ packages:
   - imagemagick
   - jo
   - jq
+  - jwt-cli
   - parallel
   - rename
   - rg
