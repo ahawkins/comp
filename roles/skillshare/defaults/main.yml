@@ -9,3 +9,7 @@ npm_token: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.npm.token', com
 dd_app_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.datadog.app_key', comp_username)) }}"
 dd_api_key: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.datadog.api_key', comp_username)) }}"
 sentry_token: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.sentry.token', comp_username)) }}"
+auth_jwt_prod_secret: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.auth_jwt_prod_secret', comp_username)) }}"
+auth_jwt_staging_secret: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.auth_jwt_staging_secret', comp_username)) }}"
+auth_pwt_prod_secret: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.auth_pwt_prod_secret', comp_username)) }}"
+auth_pwt_staging_secret: "{{ lookup('keyring', '{} {}'.format('comp.skillshare.auth_pwt_staging_secret', comp_username)) }}"
