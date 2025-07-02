@@ -1,6 +1,8 @@
 ---
 aws_default_region: us-east-1
 
+profile_name: slashdeploy
+
 casks:
   - descript
   - focusrite-control

@@ -12,12 +12,27 @@
     aws_secret_key: "{{ aws_secret_access_key }}"
     region: "us-east-1"
 
-- name: Configure AWS profile
-  community.aws.aws_config:
-    profile: slashdeploy
-    aws_access_key_id: "{{ aws_access_key_id }}"
-    aws_secret_access_key: "{{ aws_secret_access_key }}"
-    region: "{{ aws_default_region }}"
+- name: Create AWS config
+  ansible.builtin.file:
+    state: directory
+    path: ~/.aws
+
+- name: Configure AWS profile region
+  ansible.builtin.blockinfile:
+    path: ~/.aws/config
+    marker_begin: "comp/slashdeploy"
+    block: |
+      [{{ profile_name }}]
+      region={{ aws_default_region }}
+
+- name: Configure AWS profile credentials
+  ansible.builtin.blockinfile:
+    path: ~/.aws/credentials
+    marker_begin: "comp/slashdeploy"
+    block: |
+      [{{ profile_name }}]
+      aws_access_key_id={{ aws_access_key_id }}
+      aws_secret_access_key={{ aws_secret_access_key }}
 
 - name: Check profile
   amazon.aws.aws_caller_info:
