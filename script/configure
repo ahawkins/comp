@@ -29,27 +29,6 @@ bootstrap_osx() {
 	log::exec_command python3 --version
 	log::exec_command pip3 --version
 
-	local pips=(keyring)
-	# XXX: pip list breaks (?!?) when piped to stdout but not when
-	# captured in a subshell. Computers right?
-	local installed_pips="$(pip3 list)"
-
-	for package in "${pips[@]}"; do
-		if ! echo "${installed_pips}" | grep -qF "${package}"; then
-			log::indicator "Installing ${package}"
-			# XXX: https://docs.brew.sh/Homebrew-and-Python#pep-668-python312-and-virtual-environments
-			#
-			# This used to work before python 3.12. The script could use the brew
-			# python installed along with ansible to load pips into. 3.12 no longer
-			# allows installing pips in "system managed" environments. There are
-			# two possible options: do something with virtual environments and
-			# the --break-system-packages. I selected --break-system-packages because
-			# there is a single dependency. Mucking with virtulenvs felt like
-			# it would conflict with whateve brew is doing for pythong/ansible.
-			log::exec_command pip3 install "${package}" --break-system-packages
-		fi
-	done
-
 	# XXX: https://bugs.python.org/issue35219
 	export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
