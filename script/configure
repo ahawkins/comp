@@ -29,9 +29,6 @@ bootstrap_osx() {
 	log::exec_command python3 --version
 	log::exec_command pip3 --version
 
-	# XXX: https://bugs.python.org/issue35219
-	export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-
 	# Install required Ansible collections
 	log::indicator "Installing Ansible collections"
 	log::exec_command ansible-galaxy collection install -r requirements.yml
