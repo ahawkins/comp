@@ -1,5 +1,3 @@
-comp_username: ahawkins
-
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
 s_src_dir: "{{ '~/Developer' | expanduser }}"
 
