@@ -1,71 +1,70 @@
 ---
 - name: Install packages
-  homebrew:
+  community.general.homebrew:
     state: present
     name: "{{ packages }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Install casks
-  homebrew_cask:
+  community.general.homebrew_cask:
     state: present
     name: "{{ casks }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Create fish vendor_functions.d
-  file:
+  ansible.builtin.file:
     state: directory
     dest: "{{ brew_prefix }}/share/fish/vendor_functions.d"
 
 - name: Install fundle
-  get_url:
+  ansible.builtin.get_url:
     url: https://git.io/fundle
     dest: "{{ brew_prefix }}/share/fish/vendor_functions.d/fundle.fish"
 
 - name: Add fish to /etc/shells
   become: true
-  lineinfile:
-    state: present
-    dest: /etc/shells
+  ansible.builtin.lineinfile:
+    path: /etc/shells
     regexp: fish
     line: "{{ brew_prefix }}/bin/fish"
+    state: present
 
 - name: Create configuration directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: ~/.config/env/comp
 
 - name: Configure environment variables
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: ~/.config/env/comp/{{ item | basename }}
-  with_fileglob:
-    - files/env/*
+  loop: "{{ query('fileglob', 'files/env/*') }}"
 
 - name: Create source code directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ s_src_dir }}"
 
 - name: Create ~/.ssh
-  file:
+  ansible.builtin.file:
     state: directory
     path: ~/.ssh
 
 - name: Accept github key
-  known_hosts:
+  ansible.builtin.known_hosts:
     state: present
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
 - name: Check dotfiles
-  stat:
+  ansible.builtin.stat:
     path: "{{ dotfiles_dir }}"
   register: dotfiles_stat
 
 - name: Clone dotfiles
-  git:
+  ansible.builtin.git:
     repo: https://github.com/ahawkins/dotfiles.git
     dest: "{{ dotfiles_dir }}"
     version: master
@@ -73,7 +72,7 @@
   when: dotfiles_stat.stat.exists == False
 
 - name: Configure dotfiles to push over SSH
-  command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
+  ansible.builtin.command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
   args:
     chdir: "{{ dotfiles_dir }}"
   changed_when: false

@@ -1,31 +1,31 @@
 ---
 - name: Install packages
-  homebrew:
+  community.general.homebrew:
     state: present
     name: "{{ packages }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Install casks
-  homebrew_cask:
+  community.general.homebrew_cask:
     state: present
     name: "{{ casks }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Install asdf-vm
-  git:
+  ansible.builtin.git:
     repo: https://github.com/asdf-vm/asdf.git
     version: "v{{ asdf_version }}"
     update: false
     dest: ~/.asdf
 
 - name: List asdf-vm plugins
-  command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-list'"
+  ansible.builtin.command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-list'"
   register: installed_asdf_plugins
   changed_when: false
 
 - name: Install asdf-vm plugins
-  command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-add {{ item }}'"
+  ansible.builtin.command: "bash -c 'source ~/.asdf/asdf.sh && asdf plugin-add {{ item }}'"
   when: "not item in installed_asdf_plugins.stdout"
   loop: "{{ asdf_plugins }}"

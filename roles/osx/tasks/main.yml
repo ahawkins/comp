@@ -1,13 +1,13 @@
 ---
 - name: Install brews
-  homebrew:
+  community.general.homebrew:
     state: present
     name: "{{ packages }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Install casks
-  homebrew_cask:
+  community.general.homebrew_cask:
     state: present
     name: "{{ casks }}"
   environment:

@@ -1,49 +1,46 @@
 ---
 - name: Install casks
-  homebrew_cask:
+  community.general.homebrew_cask:
     state: present
     name: "{{ casks }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
 - name: Create comp configuration
-  file:
+  ansible.builtin.file:
     state: directory
     path: ~/.config/comp
 
 - name: Copy comp configuration file
-  copy:
+  ansible.builtin.copy:
     src: files/comp/env.fish
     dest: ~/.config/comp/env.fish
 
 - name: Copy comp files
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: ~/.config/comp/{{ item | basename }}
-  with_fileglob:
-    - files/comp/*
+  loop: "{{ query('fileglob', 'files/comp/*') }}"
 
 - name: Creat config directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: ~/.config/skillshare
 
 - name: Copy config files
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: ~/.config/skillshare/{{ item | basename }}
-  with_fileglob:
-    - files/config/*
+  loop: "{{ query('fileglob', 'files/config/*') }}"
 
 - name: Configure environment variables
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: ~/.config/env/comp/{{ item | basename }}
-  with_fileglob:
-    - files/env/*
+  loop: "{{ query('fileglob', 'files/env/*') }}"
 
 - name: Remove dead environment variables
-  file:
+  ansible.builtin.file:
     state: absent
     dest: ~/.config/env/comp/{{ item }}
   loop:
@@ -62,6 +59,6 @@
     - SKILLSHARE_GITHUB_ACCESS_TOKEN
 
 - name: Create source directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ s_src_dir }}/skillshare"
