@@ -17,7 +17,7 @@
     dest: ~/.config/comp/env.fish
 
 - name: Copy comp files
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.config/comp/{{ item | basename }}
   loop: "{{ query('fileglob', 'files/comp/*') }}"
@@ -28,16 +28,17 @@
     path: ~/.config/skillshare
 
 - name: Copy config files
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.config/skillshare/{{ item | basename }}
   loop: "{{ query('fileglob', 'files/config/*') }}"
 
 - name: Configure environment variables
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: ~/.config/env/comp/{{ item | basename }}
-  loop: "{{ query('fileglob', 'files/env/*') }}"
+  ansible.builtin.copy:
+    content: "{{ item.value }}\n"
+    dest: ~/.config/env/comp/{{ item.key }}
+  loop: "{{ env | dict2items }}"
+  when: env is defined
 
 - name: Remove dead environment variables
   ansible.builtin.file:

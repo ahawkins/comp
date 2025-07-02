@@ -12,6 +12,25 @@
       loop:
         - homebrew_api_token
         - github_token
+
+    - name: Validate required environment variables
+      ansible.builtin.assert:
+        that:
+          - env is defined
+          - "{{ item in env }}"
+          - "{{ env[item] | default('') | length > 0 }}"
+        fail_msg: "Required environment variable '{{ item }}' is not defined or is empty."
+        success_msg: "Required environment variable '{{ item }}' is properly set"
+      loop:
+        - CF_API_KEY
+        - NPM_TOKEN
+        - DD_APP_KEY
+        - DD_API_KEY
+        - SENTRY_TOKEN
+        - SKILLSHARE_AUTH_JWT_PROD_SECRET
+        - SKILLSHARE_AUTH_JWT_STAGING_SECRET
+        - SKILLSHARE_AUTH_PWT_PROD_SECRET
+        - SKILLSHARE_AUTH_PWT_STAGING_SECRET
   roles:
     - terminal
     - shell
