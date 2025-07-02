@@ -39,6 +39,8 @@
     dest: ~/.config/env/comp/{{ item.key }}
   loop: "{{ env | dict2items }}"
   when: env is defined
+  loop_control:
+    label: "{{ item.key }}"
 
 - name: Remove dead environment variables
   ansible.builtin.file:
