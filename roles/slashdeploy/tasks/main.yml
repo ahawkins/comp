@@ -1,13 +1,4 @@
 ---
-- name: Tap cask
-  community.general.homebrew_tap:
-    state: present
-    name: "{{ item }}"
-  loop:
-      - homebrew/cask-drivers
-  environment:
-    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
-
 - name: Install casks
   community.general.homebrew_cask:
     state: present
