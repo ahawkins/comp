@@ -21,17 +21,12 @@
     aws_secret_key: "{{ aws_secret_access_key }}"
     region: "us-east-1"
 
-- name: Configure AWS access key
-  ansible.builtin.command: aws --profile slashdeploy configure set aws_access_key_id '{{ aws_access_key_id }}'
-  changed_when: false
-
-- name: Configure AWS secret key
-  ansible.builtin.command: aws --profile slashdeploy configure set aws_secret_access_key '{{ aws_secret_access_key }}'
-  changed_when: false
-
-- name: Configure ahawkins AWS region
-  ansible.builtin.command: aws --profile slashdeploy configure set region '{{ aws_default_region }}'
-  changed_when: false
+- name: Configure AWS profile
+  community.aws.aws_config:
+    profile: slashdeploy
+    aws_access_key_id: "{{ aws_access_key_id }}"
+    aws_secret_access_key: "{{ aws_secret_access_key }}"
+    region: "{{ aws_default_region }}"
 
 - name: Check profile
   amazon.aws.aws_caller_info:
