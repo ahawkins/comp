@@ -32,4 +32,4 @@ asdf_plugins:
   - ruby
   - terraform
 
-asdf_version: 0.12.0
+asdf_version: 0.15.0
