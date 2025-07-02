@@ -5,8 +5,8 @@
     - name: Validate required variables
       ansible.builtin.assert:
         that:
-          - "{{ item in vars }}"
-          - "{{ vars[item] | default('') | length > 0 }}"
+          - item in vars
+          - vars[item] | default('') | length > 0
         fail_msg: "Required variable '{{ item }}' is not defined or is empty."
         success_msg: "Required variable '{{ item }}' is properly set"
       loop:
@@ -17,8 +17,8 @@
       ansible.builtin.assert:
         that:
           - env is defined
-          - "{{ item in env }}"
-          - "{{ env[item] | default('') | length > 0 }}"
+          - item in env
+          - env[item] | default('') | length > 0
         fail_msg: "Required environment variable '{{ item }}' is not defined or is empty."
         success_msg: "Required environment variable '{{ item }}' is properly set"
       loop:
