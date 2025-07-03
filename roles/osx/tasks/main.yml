@@ -3,6 +3,7 @@
   community.general.homebrew:
     state: present
     name: "{{ packages }}"
+		sudo_password: "{{ ansible_become_pass }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
