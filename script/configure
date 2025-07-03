@@ -20,10 +20,6 @@ bootstrap_osx() {
 		log::exec_command brew install ansible
 	fi
 
-	# XXX: Use whatever the current python is. This assumes that ansible is using
-	# the latest python.
-	export PATH="$(brew --prefix python)/bin:${PATH}"
-
 	log::indicator "Checking versions"
 
 	log::exec_command ansible --version
