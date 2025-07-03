@@ -1,16 +1,18 @@
 ---
 packages:
-  - awscli
   - aws-iam-authenticator
+  - awscli
   - bats-core
   - circleci
   - editorconfig
   - fzf
-  - jwt-cli
   - git
   - git-crypt
   - git-secrets
   - go-task/tap/go-task
+  - jwt-cli
+  - nodejs
+  - ruby
   - shellcheck
   - stern
   - tmux
