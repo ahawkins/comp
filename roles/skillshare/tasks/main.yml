@@ -3,7 +3,7 @@
   community.general.homebrew_cask:
     state: present
     name: "{{ casks }}"
-    sudo_password: "{{ ansible_become_pass }}"
+    sudo_password: "{{ ansible_become_password | default(omit) }}"
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 

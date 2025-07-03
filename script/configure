@@ -41,14 +41,24 @@ main() {
 
 	log::header "Running on ${machine}"
 
+	local -a ansible_args=()
+
+	if [ -f become.yml ]; then
+		log::indicator "become.yml found, assuming noninteractive execution"
+		ansible_args+=(--extra-vars @become.yml)
+	else
+		log::warn "become.yml not found, falling back to interactive mode"
+		ansible_args+=(--ask-become-pass)
+	fi
+
 	case "${machine}" in
 		*[Ss]killshare*)
 			bootstrap_osx
-			log::exec_command ansible-playbook configure-skillshare.yml --ask-become-pass "$@"
+			log::exec_command ansible-playbook configure-skillshare.yml "${ansible_args[@]}" "$@"
 			;;
 		*[Hh]okulea*)
 			bootstrap_osx
-			log::exec_command ansible-playbook configure-comp.yml --ask-become-pass "$@"
+			log::exec_command ansible-playbook configure-comp.yml "${ansible_args[@]}" "$@"
 			;;
 		*)
 			log::error "Do not know how to bootstrap ${machine}"
