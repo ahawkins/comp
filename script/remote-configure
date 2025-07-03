@@ -2,15 +2,24 @@
 
 set -euo pipefail
 
-if [ -z "${1:-}" ]; then
-	echo "USAGE: ${0} [user@]HOST" 1>&2
-	exit 1
-fi
+main() {
+	if [ -z "${1:-}" ]; then
+		echo "USAGE: ${0} [user@]HOST [...ANSIBLE_ARGS]" 1>&2
+		return 1
+	fi
 
-host=${1}
+	if [ ! -f become.yml ]; then
+		echo "Create ansible_become_password in become.yml for remote configuration" 1>&2
+		return 1
+	fi
 
-shift
+	host="${1}"
 
-ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${host}" 'mkdir -p ~/.comp'
-rsync -avzh --delete -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${host}:.comp"
-# ssh "${host}" "sh -c 'cd ~/.comp && script/configure $@'"
+	shift
+
+	ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${host}" 'mkdir -p ~/.comp'
+	rsync -avzh --delete --exclude .git -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${host}:.comp"
+	ssh "${host}" "sh -c 'cd ~/.comp && script/configure $*'"
+}
+
+main "$@"
