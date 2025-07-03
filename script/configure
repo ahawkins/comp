@@ -5,13 +5,14 @@ set -euo pipefail
 source script/util.sh
 
 bootstrap_osx() {
-	# /usr/local/bin may not be on $PATH on fresh machines. This makes
-	# brew (and installed brews) work throughout this script.
-	export "PATH=/usr/local/bin:${PATH}"
-
 	if ! command -v brew &> /dev/null; then
-		log::error "Brew not found. Install manually and retry"
-		return 1
+		if [ -x /opt/homebrew/bin/brew ]; then
+			eval "$(/opt/homebrew/bin/brew shellenv)"
+			log::exec_command brew --version
+		else
+			log::error "brew not found. Install manually"
+			return 1
+		fi
 	fi
 
 	if ! brew list | grep ansible &> /dev/null; then
