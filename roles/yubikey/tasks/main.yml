@@ -6,3 +6,8 @@
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
+- name: Create .gnupg
+  ansible.builtin.file:
+    state: directory
+    path: ~/.gnupg
+    mode: '0700'
