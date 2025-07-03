@@ -20,7 +20,7 @@ packages:
   - yarn
 
 casks:
-  - docker
+  - docker-desktop
   - iterm2
 
 asdf_plugins:
