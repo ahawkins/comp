@@ -51,7 +51,7 @@
 - name: Create ev files
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: ~/.config/skillshare/{{ item | basename }}
+    dest: ~/.config/env/comp/{{ item | basename }}
   loop: "{{ query('fileglob', 'files/env/*') }}"
 
 - name: Remove dead environment variables
