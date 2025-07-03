@@ -1,4 +1,12 @@
 ---
+- name: Add taps
+  community.general.homebrew_tap:
+    state: present
+    name:
+      - go-task/homebrew-tap
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+
 - name: Install packages
   community.general.homebrew:
     state: present
