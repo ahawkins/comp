@@ -7,6 +7,11 @@
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
+- name: Create ev dir
+  ansible.builtin.file:
+    state: directory
+    path: ~/.config/env/skillshare
+
 - name: Create comp configuration
   ansible.builtin.file:
     state: directory
