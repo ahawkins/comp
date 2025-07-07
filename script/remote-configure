@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+source script/util.sh
+
 main() {
 	if [ -z "${1:-}" ]; then
 		echo "USAGE: ${0} [user@]HOST [...ANSIBLE_ARGS]" 1>&2
@@ -22,11 +24,29 @@ main() {
 
 	shift
 
+	log::header "Running remote configuration on ${host}"
+
+	log::indicator "Copying files"
 	ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${host}" 'mkdir -p ~/.comp'
-	rsync -avzh --delete --exclude .git  --exclude remove_vars/  -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${host}:.comp"
+	rsync -avzh --delete \
+		--exclude .git \
+		--exclude remove_vars/ \
+		--exclude host_vars/ \
+		-e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' \
+		. "${host}:.comp"
+	ssh "${host}" mkdir -p .comp/host_vars
 	scp remote_vars/become.yml "${host}:.comp/become.yml"
 	scp remote_vars/localhost.yml "${host}:.comp/host_vars/localhost.yml"
-	ssh "${host}" "sh -c 'cd ~/.comp && script/configure $*'"
+
+	if [ $# -ne 0 ]; then
+		log::indicator "Running configuration script with $*"
+	else
+		log::indicator "Running configuration script"
+	fi
+
+	# XXX: need to use sh here because ssh expects something on PATH
+	# Running with ssh allows executing a script
+	ssh "${host}" "sh -c 'cd .comp && ./script/configure $*'"
 }
 
 main "$@"
