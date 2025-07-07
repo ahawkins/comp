@@ -54,6 +54,11 @@
     dest: ~/.config/env/comp/{{ item | basename }}
   loop: "{{ query('fileglob', 'files/env/*') }}"
 
+- name: Create ~/.npmrc
+  ansible.builtin.copy:
+    src: files/npmrc
+    dest: ~/.npmrc
+
 - name: Remove dead environment variables
   ansible.builtin.file:
     state: absent
