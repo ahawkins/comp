@@ -42,6 +42,8 @@
     src: "{{ item }}"
     dest: ~/.config/env/comp/{{ item | basename }}
   loop: "{{ query('fileglob', 'files/env/*') }}"
+  loop_control:
+    label: "{{ item | basename }}"
 
 - name: Create source code directory
   ansible.builtin.file:
