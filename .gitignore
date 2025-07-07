@@ -1,2 +1,3 @@
 host_vars/localhost.yml
 become.yml
+remote_vars/

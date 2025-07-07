@@ -8,8 +8,13 @@ main() {
 		return 1
 	fi
 
-	if [ ! -f become.yml ]; then
-		echo "Create ansible_become_password in become.yml for remote configuration" 1>&2
+	if [ ! -f remote_vars/become.yml ]; then
+		echo "Create ansible_become_password in remote_vars/become.yml for remote configuration" 1>&2
+		return 1
+	fi
+
+	if [ ! -f remote_vars/localhost.yml ]; then
+		echo "Create remote_vars/localhost.yml for remote configuration" 1>&2
 		return 1
 	fi
 
@@ -18,7 +23,9 @@ main() {
 	shift
 
 	ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' "${host}" 'mkdir -p ~/.comp'
-	rsync -avzh --delete --exclude .git -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${host}:.comp"
+	rsync -avzh --delete --exclude .git  --exclude remove_vars/  -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' . "${host}:.comp"
+	scp remote_vars/become.yml "${host}:.comp/become.yml"
+	scp remote_vars/localhost.yml "${host}:.comp/host_vars/localhost.yml"
 	ssh "${host}" "sh -c 'cd ~/.comp && script/configure $*'"
 }
 
