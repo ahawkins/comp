@@ -59,18 +59,17 @@
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
-- name: Check dotfiles
-  ansible.builtin.stat:
-    path: "{{ dotfiles_dir }}"
-  register: dotfiles_stat
-
 - name: Clone dotfiles
   ansible.builtin.git:
+    # Clone if not already existing
+    clone: true
+    # Do not blow away any existing changes
+    force: false
+    # Equivalent to a git fetch
+    update: false
     repo: https://github.com/ahawkins/dotfiles.git
     dest: "{{ dotfiles_dir }}"
     version: master
-    update: true
-  when: dotfiles_stat.stat.exists == False
 
 - name: Configure dotfiles to push over SSH
   ansible.builtin.command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
