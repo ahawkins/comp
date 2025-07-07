@@ -7,33 +7,29 @@
   environment:
     HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
 
-- name: Create ev dir
-  ansible.builtin.file:
-    state: directory
-    path: ~/.config/env/skillshare
-
-- name: Create comp configuration
+- name: Create comp configuration directory
   ansible.builtin.file:
     state: directory
     path: ~/.config/comp
 
-- name: Copy comp configuration file
-  ansible.builtin.copy:
-    src: files/comp/env.fish
-    dest: ~/.config/comp/env.fish
-
-- name: Copy comp files
+- name: Copy comp configuration files
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.config/comp/{{ item | basename }}
   loop: "{{ query('fileglob', 'files/comp/*') }}"
 
-- name: Creat config directory
+- name: Copy comp env.d files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ comp_envd_dir }}/{{ item | basename }}"
+  loop: "{{ query('fileglob', 'files/env.d/*') }}"
+
+- name: Create Skillshare config directory
   ansible.builtin.file:
     state: directory
     path: ~/.config/skillshare
 
-- name: Copy config files
+- name: Copy Skillshare config files
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.config/skillshare/{{ item | basename }}
@@ -42,7 +38,7 @@
 - name: Configure environment variables
   ansible.builtin.copy:
     content: "{{ item.value }}\n"
-    dest: ~/.config/env/comp/{{ item.key }}
+    dest: "{{ comp_ev_dir}}/{{ item.key }}"
   loop: "{{ env | dict2items }}"
   when: env is defined
   loop_control:
@@ -51,7 +47,7 @@
 - name: Create ev files
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: ~/.config/env/comp/{{ item | basename }}
+    dest: "{{ comp_ev_dir }}/{{ item | basename }}"
   loop: "{{ query('fileglob', 'files/env/*') }}"
   loop_control:
     label: "{{ item | basename }}"
@@ -64,7 +60,7 @@
 - name: Remove dead environment variables
   ansible.builtin.file:
     state: absent
-    dest: ~/.config/env/comp/{{ item }}
+    dest: "{{ comp_ev_dir }}/{{ item }}"
   loop:
     - AWS_DEFAULT_PROFILE
     - AWS_PROFILE

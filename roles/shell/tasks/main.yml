@@ -32,15 +32,18 @@
     line: "{{ brew_prefix }}/bin/fish"
     state: present
 
-- name: Create configuration directory
+- name: Create configuration directories
   ansible.builtin.file:
     state: directory
-    path: ~/.config/env/comp
+    path: "{{ item }}"
+  loop:
+    -  "{{ comp_ev_dir }}"
+    -  "{{ comp_envd_dir }}"
 
 - name: Configure environment variables
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: ~/.config/env/comp/{{ item | basename }}
+    dest: "{{ comp_ev_dir }}/{{ item | basename }}"
   loop: "{{ query('fileglob', 'files/env/*') }}"
   loop_control:
     label: "{{ item | basename }}"

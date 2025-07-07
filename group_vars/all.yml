@@ -1,4 +1,7 @@
 # For the "s" tool. See https://github.com/ahawkins/bindir for more
 s_src_dir: "{{ '~/Developer' | expanduser }}"
 
+comp_envd_dir: "{{ '~/.config/comp/env.d' | expanduser }}"
+comp_ev_dir: "{{ '~/.config/env/comp' | expanduser }}"
+
 brew_prefix: "{{ (ansible_facts.architecture == 'x86_64') | ternary('/usr/local', '/opt/homebrew') }}"
