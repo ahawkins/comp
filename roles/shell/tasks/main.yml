@@ -59,7 +59,7 @@
     name: github.com
     key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
 
-- name: Clone dotfiles
+- name: Clone repos
   ansible.builtin.git:
     # Clone if not already existing
     clone: true
@@ -67,12 +67,15 @@
     force: false
     # Equivalent to a git fetch
     update: false
-    repo: https://github.com/ahawkins/dotfiles.git
-    dest: "{{ dotfiles_dir }}"
+    repo: https://github.com/ahawkins/{{ item }}.git
+    dest: "{{ s_src_dir }}/ahawkins/{{ item }}"
     version: master
+  loop: "{{ repos }}"
 
-- name: Configure dotfiles to push over SSH
-  ansible.builtin.command: git remote set-url --push origin git@github.com:ahawkins/dotfiles.git
+- name: Configure repos to push over SSH
+  ansible.builtin.command: |
+    git remote set-url --push origin git@github.com:ahawkins/{{ item }}.git
   args:
-    chdir: "{{ dotfiles_dir }}"
+    chdir: "{{ s_src_dir }}/ahawkins/{{ item }}"
+  loop: "{{ repos }}"
   changed_when: false

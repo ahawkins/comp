@@ -9,3 +9,9 @@ casks:
   - font-input
   - font-source-code-pro
   - iterm2
+
+repos:
+  - comp
+  - dotfiles
+  - bindir
+
