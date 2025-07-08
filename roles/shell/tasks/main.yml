@@ -84,3 +84,9 @@
     chdir: "{{ s_src_dir }}/ahawkins/{{ item }}"
   loop: "{{ repos }}"
   changed_when: false
+
+- name: Copy comp env.d files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ comp_envd_dir }}/{{ item | basename }}"
+  loop: "{{ query('fileglob', 'files/env.d/*') }}"
