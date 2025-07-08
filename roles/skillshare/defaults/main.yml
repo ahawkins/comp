@@ -3,3 +3,5 @@ casks:
   - cursor
   - font-lato
 
+skillshare_ev_dir: "{{ '~/.config/env/skillshare' | expanduser }}"
+

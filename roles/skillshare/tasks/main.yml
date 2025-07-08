@@ -98,3 +98,9 @@
   args:
     chdir: "{{ s_src_dir }}/skillshare/ahawkins"
   changed_when: false
+
+- name: Create Skillshare env directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ skillshare_ev_dir }}"
+
