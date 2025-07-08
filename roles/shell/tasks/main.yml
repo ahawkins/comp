@@ -44,7 +44,7 @@
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ comp_ev_dir }}/{{ item | basename }}"
-  loop: "{{ query('fileglob', 'files/env/*') }}"
+  with_fileglob: files/env/*
   loop_control:
     label: "{{ item | basename }}"
 
@@ -89,4 +89,6 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ comp_envd_dir }}/{{ item | basename }}"
-  loop: "{{ query('fileglob', 'files/env.d/*') }}"
+  with_fileglob: files/env.d/*
+  loop_control:
+    label: "{{ item | basename }}"

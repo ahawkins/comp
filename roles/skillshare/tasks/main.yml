@@ -16,13 +16,17 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.config/comp/{{ item | basename }}
-  loop: "{{ query('fileglob', 'files/comp/*') }}"
+  with_fileglob: files/comp/*
+  loop_control:
+    label: "{{ item | basename }}"
 
 - name: Copy comp env.d files
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ comp_envd_dir }}/{{ item | basename }}"
-  loop: "{{ query('fileglob', 'files/env.d/*') }}"
+  with_fileglob: files/env.d/*
+  loop_control:
+    label: "{{ item | basename }}"
 
 - name: Create Skillshare config directory
   ansible.builtin.file:
@@ -33,7 +37,9 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: ~/.config/skillshare/{{ item | basename }}
-  loop: "{{ query('fileglob', 'files/config/*') }}"
+  with_fileglob: files/config/*
+  loop_control:
+    label: "{{ item | basename }}"
 
 - name: Configure environment variables
   ansible.builtin.copy:
@@ -48,7 +54,7 @@
   ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ comp_ev_dir }}/{{ item | basename }}"
-  loop: "{{ query('fileglob', 'files/env/*') }}"
+  with_fileglob: files/env/*
   loop_control:
     label: "{{ item | basename }}"
 
@@ -103,4 +109,3 @@
   ansible.builtin.file:
     state: directory
     path: "{{ skillshare_ev_dir }}"
-
