@@ -4,4 +4,4 @@ casks:
   - font-lato
 
 skillshare_ev_dir: "{{ '~/.config/env/skillshare' | expanduser }}"
-
+composer_home: "{{ '~/.config/composer' | expanduser }}"
