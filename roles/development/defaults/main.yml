@@ -6,6 +6,7 @@ packages:
   - circleci
   - editorconfig
   - fzf
+  - gh
   - git
   - git-crypt
   - git-secrets
