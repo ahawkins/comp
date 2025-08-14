@@ -65,6 +65,7 @@
     create: true
     block: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
     marker_begin: 'comp/shell/github-keys'
+    changed_when: false
 
 - name: Clone repos
   ansible.builtin.git:
