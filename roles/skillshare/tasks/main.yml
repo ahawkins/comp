@@ -1,4 +1,11 @@
 ---
+- name: Install brews
+  community.general.homebrew:
+    state: present
+    name: "{{ brews }}"
+  environment:
+    HOMEBREW_GITHUB_API_TOKEN: "{{ homebrew_api_token }}"
+
 - name: Install casks
   community.general.homebrew_cask:
     state: present
@@ -62,6 +69,13 @@
   ansible.builtin.copy:
     src: files/npmrc
     dest: ~/.npmrc
+
+- name: Authenticate composer
+  composer:
+    command: config
+    arguments: github-oauth.github.com {{ github_token }}
+    global_command: true
+  changed_when: false
 
 - name: Remove dead environment variables
   ansible.builtin.file:

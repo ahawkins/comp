@@ -1,4 +1,7 @@
 ---
+brews:
+  - composer
+
 casks:
   - cursor
   - font-lato
