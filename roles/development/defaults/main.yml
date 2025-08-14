@@ -16,6 +16,8 @@ packages:
   - ruby
   - shellcheck
   - stern
+  - terraform
+  - terragrunt
   - tmux
   - vim
   - yarn
