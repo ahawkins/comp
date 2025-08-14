@@ -59,10 +59,12 @@
     path: ~/.ssh
 
 - name: Accept github key
-  ansible.builtin.known_hosts:
+  ansible.builtin.blockinfile:
     state: present
-    name: github.com
-    key: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    path: ~/.ssh/known_hosts
+    create: true
+    block: "{{ lookup('pipe', 'ssh-keyscan github.com') }}"
+    marker_begin: 'comp/shell/github-keys'
 
 - name: Clone repos
   ansible.builtin.git:
